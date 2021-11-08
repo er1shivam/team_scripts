@@ -6,8 +6,8 @@ This code is meant to be used inside DFY Setters to calculate average reply time
 
 You will need the following accounts setup
 1. settersandspecialists.com gmail account
-2. Github account (personal)
-3. Google Cloud Account
+2. [Github account (personal)](https://github.com)
+3. [Google Cloud Account](https://cloud.google.com)
 
 ## Installation
 
