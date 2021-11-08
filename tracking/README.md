@@ -19,7 +19,7 @@ brew install gh
 NOTE: You will need to verify your GitHub account using the onscreen prompts
 
 2. Download your client secret json file from Google Cloud
-If you do not have your OAuth already setup, please follow steps 1-6 [here] (https://docs.gspread.org/en/v4.0.1/oauth2.html#for-end-users-using-oauth-client-id)
+If you do not have your OAuth already setup, please follow steps 1-6 [here](https://docs.gspread.org/en/v4.0.1/oauth2.html#for-end-users-using-oauth-client-id)
 
 3. Rename your client secret file to exactly credentials.json
 Ensure that it is in your Downloads folder
@@ -50,12 +50,12 @@ cd team_scripts/tracking
 ython3 conversation_averages.py
 ```
 
-3. Paste desired link from Downloaded FB Messages [here] (https://drive.google.com/drive/u/0/folders/1sAMiZQtCjCh7RNMJhnMedPmuHynONfAs)
+3. Paste desired link from Downloaded FB Messages [here](https://drive.google.com/drive/u/0/folders/1sAMiZQtCjCh7RNMJhnMedPmuHynONfAs)
 NOTE: You must be on a settersandspecialists.com email to access this
 
 4. Press enter and wait for code to run
 
-5. Open Average Spreadsheets to see your average times [here] (https://docs.google.com/spreadsheets/d/1XxCMbAsBuR8TYDEIgclfcgmpH_v6xVmKB4JmG8yRqs0/edit#gid=323658950)
+5. Open Average Spreadsheets to see your average times [here](https://docs.google.com/spreadsheets/d/1XxCMbAsBuR8TYDEIgclfcgmpH_v6xVmKB4JmG8yRqs0/edit#gid=323658950)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
