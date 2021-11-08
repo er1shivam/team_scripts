@@ -13,7 +13,7 @@ You will need the following accounts setup
 
 1. Ensure python3 and GitHub CLI are installed with
 ```console
-brew install python3
+1. brew install python3
 brew install gh
 ```
 NOTE: You will need to verify your GitHub account using the onscreen prompts
@@ -47,7 +47,7 @@ pip3 install -r requirements.txt
 
 ```console
 cd team_scripts/tracking
-ython3 conversation_averages.py
+python3 conversation_averages.py
 ```
 
 3. Paste desired link from Downloaded FB Messages [here](https://drive.google.com/drive/u/0/folders/1sAMiZQtCjCh7RNMJhnMedPmuHynONfAs)
