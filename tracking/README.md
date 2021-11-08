@@ -15,6 +15,7 @@ You will need the following accounts setup
 
 1. ```console
 brew install python3
+```
 
 
 2. ```console
