@@ -7,7 +7,7 @@ This code is meant to be used inside DFY Setters to calculate average reply time
 You will need the following accounts setup
 1. settersandspecialists.com gmail account
 2. Github account (personal)
-3. GCP Account
+3. Google Cloud Account
 
 ## Installation
 
@@ -20,25 +20,36 @@ You will need the following accounts setup
 NOTE: You will need to verify your GitHub account using the onscreen prompts
 
 ### 2. Download your client secret json file from Google Cloud
-If you do not have your OAuth already setup, please follow steps 1-6 [here](https://docs.gspread.org/en/v4.0.1/oauth2.html#for-end-users-using-oauth-client-id)
+If you do not have your OAuth already setup
+
+Follow these steps
+
+1. Head to Google Developers Console and create a new project (or select the one you already have).
+
+2. In the box labeled “Search for APIs and Services”, search for “Google Drive API” and enable it.
+
+3. In the box labeled “Search for APIs and Services”, search for “Google Sheets API” and enable it.
+
+Once this is done, please follow steps 1-6 [here](https://docs.gspread.org/en/v4.0.1/oauth2.html#for-end-users-using-oauth-client-id)
 
 ### 3. Rename your client secret file to exactly credentials.json
-Ensure that it is in your Downloads folder
+Ensure that it is in your Downloads folder and names credentials.json
 
 ### 4. Setup the gspread config files and move credentials.json
 
 1. ```mkdir .config/gspread```
 2. ```cd .config/gspread```
-3. ```mv Downloads/credentials.json /Users/louisrae/.config/gspread```
+3. ```cd ```
+4. ```mv Downloads/credentials.json /Users/louisrae/.config/gspread```
 
 
 ## Usage
 ### 1. Clone the code repository and install requirements
 
 1. ```gh repo clone louisrae/team_scripts```
-2. ```cd team_scripts```
+2. ```cd team_scripts/tracking```
 3. ```virtualenv venv```
-4. ```.venv/bin/activate```
+4. ```. venv/bin/activate```
 5. ```pip3 install -r requirements.txt```
 
 
