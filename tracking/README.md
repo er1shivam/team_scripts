@@ -12,10 +12,15 @@ You will need the following accounts setup
 ## Installation
 
 1. Ensure python3 and GitHub CLI are installed with
-```console
-1. brew install python3
+
+1. ```console
+brew install python3
+
+
+2. ```console
 brew install gh
 ```
+
 NOTE: You will need to verify your GitHub account using the onscreen prompts
 
 2. Download your client secret json file from Google Cloud
