@@ -11,26 +11,40 @@ You will need the following accounts setup
 
 ## Installation
 
-### 1. Ensure python3 and GitHub CLI are installed with
+### 1. Ensure python3, GitHub CLI and virtualenv are installed with
 
 1. ```brew install python3 ```
 
 2. ```brew install gh ```
 
-NOTE: You will need to verify your GitHub account using the onscreen prompts
+3. ```brew install virtualenv ```
+
+If you have not authenticated GitHub, follow the below steps
+
+1. ```gh auth login ```
+
+2. Select Github.com
+
+3. Select HTTPS for Preferred Protocol
+
+4. Type Y to authenticate GIT
+
+5. Select login with a web browser
+
+6. Follow the on-screen prompts
 
 ### 2. Download your client secret json file from Google Cloud
 If you do not have your OAuth already setup
 
 Follow these steps
 
-1. Head to Google Developers Console and create a new project (or select the one you already have).
+1. Head to Google Developers Console and create a new project (or select the one you already have) This is in the top left next to the title. It may be labelled 'Select A Project'.
 
-2. In the box labeled “Search for APIs and Services”, search for “Google Drive API” and enable it.
+2. In the search boxat the top, search for “Google Drive API” and enable it.
 
-3. In the box labeled “Search for APIs and Services”, search for “Google Sheets API” and enable it.
+3. In the search box at the top, search for “Google Sheets API” and enable it.
 
-Once this is done, please follow steps 1-6 [here](https://docs.gspread.org/en/v4.0.1/oauth2.html#for-end-users-using-oauth-client-id)
+Once this is done, please follow steps 3-6 [here](https://docs.gspread.org/en/v4.0.1/oauth2.html#for-end-users-using-oauth-client-id)
 
 ### 3. Rename your client secret file to exactly credentials.json
 Ensure that it is in your Downloads folder and names credentials.json
@@ -40,7 +54,7 @@ Ensure that it is in your Downloads folder and names credentials.json
 1. ```mkdir .config/gspread```
 2. ```cd .config/gspread```
 3. ```cd ```
-4. ```mv Downloads/credentials.json /Users/louisrae/.config/gspread```
+4. ```mv Downloads/credentials.json /Users/$USER/.config/gspread```
 
 
 ## Usage
