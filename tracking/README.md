@@ -40,7 +40,7 @@ Follow these steps
 
 1. Head to Google Developers Console and create a new project (or select the one you already have) This is in the top left next to the title. It may be labelled 'Select A Project'.
 
-2. In the search boxat the top, search for “Google Drive API” and enable it.
+2. In the search box at the top, search for “Google Drive API” and enable it.
 
 3. In the search box at the top, search for “Google Sheets API” and enable it.
 
