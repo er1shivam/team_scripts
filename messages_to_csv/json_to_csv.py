@@ -1,6 +1,17 @@
 import json
 import pandas as pd
 import os
+import gspread
+from datetime import date
+
+def sheets_setup(dir):
+    today = date.today()
+    gc = gspread.oauth() 
+    sh = gc.create(f"{dir}'s messages ({today})")
+    worksheet = sh.sheet1
+    
+    return worksheet
+
 
 def create_dict(data):
 
@@ -14,7 +25,7 @@ def create_dict(data):
         try:
             newdict['Message'] = message['content']
         except KeyError:
-            print('There are no messages for ' + message['sender_name'])
+            print('There was a KeyError, nothing to worry about')
         else:
             pass
         dlist.append(newdict.copy())
@@ -26,16 +37,19 @@ def get_filepaths():
     dir = input('What is the name of the folder where the messages are located? Put the exact name: ')
     main_path = "/Users/"+os.environ['USER']+"/Downloads/"+dir+"/inbox/"
     for folder in os.listdir(main_path):
-        for filename in os.listdir(main_path+folder):
-                filelist.append(main_path+folder+'/'+filename)
+        if folder.endswith('.DS_Store'):
+            pass
+        else:
+            for filename in os.listdir(main_path+folder):
+                if filename.endswith('.json'):
+                    filelist.append(main_path+folder+'/'+filename)
     
     return filelist, dir
 
 def create_dataframe(todf):
     df = pd.DataFrame()
     for infile in todf:
-        data = pd.DataFrame(infile)
-        df = df.append(data,ignore_index=True)
+        df = df.append(pd.DataFrame(infile),ignore_index=True)
     
     return df
 
@@ -49,7 +63,8 @@ def main():
             todf.append(create_dict(data))
 
     df = create_dataframe(todf)
-    df.to_csv(f"/Users/{os.environ['USER']}/Downloads/{dir}.csv")
+    worksheet = sheets_setup(dir)
+    worksheet.append_rows([df.columns.values.tolist()] + df.values.tolist()) 
     
 
 if __name__ == "__main__":
