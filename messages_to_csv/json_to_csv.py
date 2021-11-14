@@ -53,7 +53,7 @@ def create_dataframe(todf):
     
     return df
 
-def main():
+def convert_json():
     filelist, dir = get_filepaths()
 
     todf = []
@@ -68,4 +68,4 @@ def main():
     
 
 if __name__ == "__main__":
-   main()
+   convert_json()

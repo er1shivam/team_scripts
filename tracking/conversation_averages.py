@@ -83,7 +83,7 @@ def sheets_setup(): #Gets gspread going
 
 	return sh, average_sheet, daily_sheet
 
-def main(): #Runs everything, but very monolithic and will be refactored
+def get_averages(): #Runs everything, but very monolithic and will be refactored
 
 	sh, average_sheet, daily_sheet = sheets_setup()
 	worksheet_list = sh.worksheets()
@@ -124,7 +124,6 @@ def main(): #Runs everything, but very monolithic and will be refactored
 	os.remove('your_array.csv')
 
 
-	
-
-main()
+if __name__ == "__main__":
+    get_averages()
 
