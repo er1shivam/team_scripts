@@ -118,6 +118,7 @@ def leaderboard():
     seven_day_total = fix_jnr_specialists(jnr_specialists_df, seven_day_total_broken)
     updated_df = pd.DataFrame.from_dict(seven_day_total)
     updated_df.to_csv(f"Leaderboard {datetime.date(datetime.today())}.csv")
+    print(updated_df)
 
 
 if __name__ == "__main__":
