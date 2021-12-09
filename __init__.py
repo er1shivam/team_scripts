@@ -1,1 +1,1 @@
-from dfy_tracking.dfysetters import FBTracking
+from dfy_tracking import dfysetters
