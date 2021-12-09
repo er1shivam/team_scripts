@@ -9,7 +9,7 @@ setup(
     author="Louis-Rae",
     author_email="louisrae@settersandspecialists.com",
     url="https://github.com/louisrae",
-    download_url="https://github.com/louisrae/team_scripts/archive/refs/tags/v0.2.2-alpha.tar.gz",
+    download_url="https://github.com/louisrae/team_scripts/archive/refs/tags/v0.2.3-alpha.tar.gz",
     keywords=[
         "data",
         "tracking",
