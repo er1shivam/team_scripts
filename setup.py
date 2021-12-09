@@ -1,8 +1,8 @@
 from distutils.core import setup
 
 setup(
-    name="dfysetters",
-    packages=["dfysetters"],
+    name="dfysetters_testing_1",
+    packages=["dfysetters_testing_2"],
     version="0.1",
     license="MIT",
     description="This is a library to be used with the dfysetters.com team. It allows us to analyse our messages and extract data from them",
