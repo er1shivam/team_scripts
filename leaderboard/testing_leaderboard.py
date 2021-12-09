@@ -17,9 +17,9 @@ def create_dfs(worksheet):
 
     df = pd.DataFrame.from_dict(worksheet.get_all_records())
     df.set_index("Totals | Daily Average", inplace=True)
-    df = df["7d Total"]
+    df = df["Week Total"]
 
-    pod_names = ["Tylee P SS", "Jack P SS"]
+    pod_names = ["Girls SS", "No_name SS"]
     snr_specialist_names = ["Morgan SS", "Austin SS", "Caycee SS", "Isela SS", "Pat SS"]
     jnr_specialists_names = [
         "Kayla TC",
@@ -39,13 +39,14 @@ def create_dfs(worksheet):
     ]
     ops_names = ["Gussi Task", "Marl Task", "Roxan Task", "David Task"]
 
-    pod_df = df.loc[pod_names]
-    snr_specialist_df = df.loc[snr_specialist_names]
-    jnr_specialists_df = df.loc[jnr_specialists_names]
-    setter_df = df.loc[setter_names]
-    ops_df = df.loc[ops_names]
-
-    return pod_df, snr_specialist_df, jnr_specialists_df, setter_df, ops_df
+    return (
+        pod_names,
+        snr_specialist_names,
+        jnr_specialists_names,
+        setter_names,
+        ops_names,
+        df,
+    )
 
 
 def create_7d_total(worksheet):
@@ -57,35 +58,46 @@ def create_7d_total(worksheet):
         "Ops": [],
     }
 
-    pod_df, snr_specialist_df, jnr_specialists_df, setter_df, ops_df = create_dfs(
-        worksheet
-    )
+    (
+        pod_names,
+        snr_specialist_names,
+        jnr_specialists_names,
+        setter_names,
+        ops_names,
+        df,
+    ) = create_dfs(worksheet)
+
+    pod_df = df.loc[pod_names]
+    snr_specialist_df = df.loc[snr_specialist_names]
+    jnr_specialists_df = df.loc[jnr_specialists_names]
+    setter_df = df.loc[setter_names]
+    ops_df = df.loc[ops_names]
 
     seven_day_total["Pods"] = (
         pod_df.to_frame()
-        .sort_values(by="7d Total", ascending=False)
-        .to_dict()["7d Total"]
+        .sort_values(by="Week Total", ascending=False)
+        .to_dict()["Week Total"]
     )
     seven_day_total["Snr Specialists"] = (
         snr_specialist_df.to_frame()
-        .sort_values(by="7d Total", ascending=False)
-        .to_dict()["7d Total"]
+        .sort_values(by="Week Total", ascending=False)
+        .to_dict()["Week Total"]
     )
     seven_day_total["Jnr Specialists"] = (
         jnr_specialists_df.to_frame()
-        .sort_values(by="7d Total", ascending=False)
-        .to_dict()["7d Total"]
+        .sort_values(by="Week Total", ascending=False)
+        .to_dict()["Week Total"]
     )
 
     seven_day_total["Setters"] = (
         setter_df.to_frame()
-        .sort_values(by="7d Total", ascending=False)
-        .to_dict()["7d Total"]
+        .sort_values(by="Week Total", ascending=False)
+        .to_dict()["Week Total"]
     )
     seven_day_total["Ops"] = (
         ops_df.to_frame()
-        .sort_values(by="7d Total", ascending=False)
-        .to_dict()["7d Total"]
+        .sort_values(by="Week Total", ascending=False)
+        .to_dict()["Week Total"]
     )
     return seven_day_total, jnr_specialists_df
 
@@ -99,13 +111,13 @@ def fix_jnr_specialists(jnr_specialists_df, seven_day_total):
         ss_count = 0
         name = index.split()[0] + " Score"
         if "SS" in index:
-            ss_count += mydf.loc[index]["7d Total"] * 5
+            ss_count += mydf.loc[index]["Week Total"] * 5
             counts[name] = ss_count
 
     for index in mydf.index:
         name = index.split()[0] + " Score"
         if "TC" in index:
-            counts[name] = mydf.loc[index]["7d Total"] + counts[name]
+            counts[name] = mydf.loc[index]["Week Total"] + counts[name]
 
     seven_day_total["Jnr Specialists"] = counts
 
@@ -117,8 +129,26 @@ def leaderboard():
     seven_day_total_broken, jnr_specialists_df = create_7d_total(worksheet)
     seven_day_total = fix_jnr_specialists(jnr_specialists_df, seven_day_total_broken)
     updated_df = pd.DataFrame.from_dict(seven_day_total)
-    updated_df.to_csv(f"Leaderboard {datetime.date(datetime.today())}.csv")
+    (
+        pod_names,
+        snr_specialist_names,
+        jnr_specialists_names,
+        setter_names,
+        ops_names,
+        df,
+    ) = create_dfs(worksheet)
+    pod_lead = updated_df[updated_df.index.isin(pod_names)]["Pods"]
+    snr_spec = updated_df[updated_df.index.isin(snr_specialist_names)][
+        "Snr Specialists"
+    ]
+    jnr_spec = updated_df[updated_df.index.isin(jnr_specialists_names)][
+        "Jnr Specialists"
+    ]
+    setter = updated_df[updated_df.index.isin(setter_names)]["Setters"]
+    op = updated_df[updated_df.index.isin(ops_names)]["Ops"]
+
+    return pd.concat([pod_lead, snr_spec, jnr_spec, setter, op])
 
 
 if __name__ == "__main__":
-    leaderboard()
+    print(leaderboard())
