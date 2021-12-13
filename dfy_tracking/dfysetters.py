@@ -1,5 +1,7 @@
 from datetime import date
 import pandas as pd
+import json
+import os
 
 
 class FBTracking:
@@ -87,3 +89,61 @@ class FBTracking:
     def average_of_all_conversations(self):
         average_time_df = self.average_per_conversation()
         return round(average_time_df[average_time_df.columns[1]].mean(), 2)
+
+
+class Conversion:
+    def __init__(self, gc, sh, worksheet, specialist):
+        self.gc = gc
+        self.sh = sh
+        self.worksheet = worksheet
+        self.specialist = specialist
+
+    def create_dict(self, data):
+
+        messages = data["messages"]
+        conversation_list = []
+        newdict = {"Conversation": "", "Sender": "", "Message": "", "Timestamp": ""}
+        for message in messages:
+            newdict["Conversation"] = data["title"]
+            newdict["Sender"] = message["sender_name"]
+            newdict["Timestamp"] = message["timestamp_ms"]
+            try:
+                newdict["Message"] = message["content"]
+            except KeyError:
+                print(
+                    "There was a Key Error, this means the content was either a stick or an emoji"
+                )
+
+            conversation_list.append(newdict.copy())
+
+        return conversation_list
+
+    def get_filepaths(self):
+        filelist = []
+        main_path = "/Users/" + os.environ["USER"] + "/Downloads/messages/inbox/"
+        for folder in os.listdir(main_path):
+            if folder.endswith(".DS_Store"):
+                pass
+            else:
+                for filename in os.listdir(main_path + folder):
+                    if filename.endswith(".json"):
+                        filelist.append(main_path + folder + "/" + filename)
+
+        return filelist
+
+    def convert_json(self, filelist):
+        message_dictionary = []
+        for path in filelist:
+            with open(path) as f:
+                data = json.load(f)
+                message_dictionary.append(self.create_dict(data))
+
+        return message_dictionary
+
+    def create_dataframe(self, message_dictionary):
+
+        df = pd.DataFrame()
+        for conversation in message_dictionary:
+            df = df.append(pd.DataFrame(conversation), ignore_index=True)
+
+        return df
