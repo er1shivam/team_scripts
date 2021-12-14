@@ -28,6 +28,10 @@ def create_dfs(worksheet):
         "Julio SS",
         "Sule TC",
         "Sule SS",
+        "Noela TC",
+        "Noela SS",
+        "Molly TC",
+        "Molly SS",
     ]
     setter_names = [
         "Donnah TC",
@@ -106,7 +110,13 @@ def fix_jnr_specialists(jnr_specialists_df, seven_day_total):
 
     mydf = jnr_specialists_df.to_frame()
 
-    counts = {"Kayla Score": 0, "Julio Score": 0, "Sule Score": 0}
+    counts = {
+        "Kayla Score": 0,
+        "Julio Score": 0,
+        "Sule Score": 0,
+        "Noela Score": 0,
+        "Molly Score": 0,
+    }
     for index in mydf.index:
         ss_count = 0
         name = index.split()[0] + " Score"
@@ -121,14 +131,17 @@ def fix_jnr_specialists(jnr_specialists_df, seven_day_total):
 
     seven_day_total["Jnr Specialists"] = counts
 
-    return seven_day_total
+    return seven_day_total, counts
 
 
 def leaderboard():
     worksheet = sheets_setup()
     seven_day_total_broken, jnr_specialists_df = create_7d_total(worksheet)
-    seven_day_total = fix_jnr_specialists(jnr_specialists_df, seven_day_total_broken)
+    seven_day_total, counts = fix_jnr_specialists(
+        jnr_specialists_df, seven_day_total_broken
+    )
     updated_df = pd.DataFrame.from_dict(seven_day_total)
+
     (
         pod_names,
         snr_specialist_names,
@@ -141,9 +154,7 @@ def leaderboard():
     snr_spec = updated_df[updated_df.index.isin(snr_specialist_names)][
         "Snr Specialists"
     ]
-    jnr_spec = updated_df[updated_df.index.isin(jnr_specialists_names)][
-        "Jnr Specialists"
-    ]
+    jnr_spec = updated_df[updated_df.index.isin(counts.keys())]["Jnr Specialists"]
     setter = updated_df[updated_df.index.isin(setter_names)]["Setters"]
     op = updated_df[updated_df.index.isin(ops_names)]["Ops"]
 
