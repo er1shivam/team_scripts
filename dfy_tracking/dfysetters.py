@@ -2,6 +2,8 @@ from datetime import date
 import pandas as pd
 import json
 import os
+import requests
+from datetime import timedelta
 
 
 class FBTracking:
@@ -292,3 +294,78 @@ class Leaderboard:
         op = updated_df[updated_df.index.isin(ops_names)]["Ops"]
 
         return pd.concat([pod_lead, snr_spec, jnr_spec, setter, op])
+
+
+class ScheduleOnce:
+    def __init__(self, url, headers):
+        self.url = url
+        self.headers = headers
+
+    def parameters(self):
+        from_date = str(date.today() - timedelta(1))
+        to_date = str(date.today())
+        payload = {
+            "starting_time.gt": from_date,
+            "starting_time.lt": to_date,
+            "limit": 100,
+        }
+
+        return payload
+
+    def create_dictionary_of_each_booking(self):
+        payload = self.parameters()
+        id_df = pd.read_csv("IDs.csv")[["Name", "ID"]]
+        mapping = id_df.set_index("Name").to_dict()
+
+        listofresponses = []
+        response = requests.request(
+            "GET", self.url, headers=self.headers, params=payload
+        )
+        booking_list = response.json()["data"]
+        for single_booking in booking_list:
+            booking_data = {
+                "Status": "",
+                "Created Time": "",
+                "Start Time": "",
+                "Customer Time Zone": "",
+                "Prospect Name": "",
+                "Prospect Email": "",
+                "Propsect Phone": "",
+                "Booking Page": "",
+                "Master Page": "",
+                "Event Type": "",
+                "Email Booked On": "",
+                "Event ID": "",
+                "Source": "",
+            }
+            booking_data["Status"] = single_booking["status"]
+            booking_data["Created Time"] = single_booking["creation_time"]
+            booking_data["Start Time"] = single_booking["starting_time"]
+            booking_data["Customer Time Zone"] = single_booking["customer_timezone"]
+            booking_data["Prospect Name"] = single_booking["form_submission"]["name"]
+            booking_data["Prospect Email"] = single_booking["form_submission"]["email"]
+            booking_data["Propsect Phone"] = single_booking["form_submission"][
+                "mobile_phone"
+            ]
+            booking_data["Booking Page"] = mapping["ID"][single_booking["booking_page"]]
+            booking_data["Master Page"] = [single_booking["master_page"]]
+            booking_data["Event Type"] = single_booking["event_type"]
+            booking_data["Email Booked On"] = single_booking["external_calendar"]["id"]
+            booking_data["Event Name"] = single_booking["subject"]
+            if len(single_booking["form_submission"]) < 8:
+                booking_data["Source"] = "Inbound Triage"
+            elif len(single_booking["form_submission"]) > 7:
+                booking_data["Source"] = single_booking["form_submission"][
+                    "custom_fields"
+                ][0]["value"]
+            listofresponses.append(booking_data.copy())
+
+        return listofresponses
+
+    def create_value_counts_dataframe(self):
+        listofresponses = self.create_dictionary_of_each_booking()
+        df = pd.DataFrame(listofresponses)
+        grouped_df = df.groupby("Booking Page")
+        tc_scheduled_numbers = grouped_df["Source"].value_counts()
+
+        return tc_scheduled_numbers
