@@ -301,7 +301,18 @@ class ScheduleOnce:
         self.url = url
         self.headers = headers
 
-    def parameters(self):
+    def booked_parameters(self):
+        from_date = str(date.today() - timedelta(1))
+        to_date = str(date.today())
+        payload = {
+            "creation_time.gt": from_date,
+            "creation_time.lt": to_date,
+            "limit": 100,
+        }
+
+        return payload
+
+    def scheduled_parameters(self):
         from_date = str(date.today() - timedelta(1))
         to_date = str(date.today())
         payload = {
@@ -313,7 +324,13 @@ class ScheduleOnce:
         return payload
 
     def create_dictionary_of_each_booking(self):
-        payload = self.parameters()
+        which_params = input(
+            "Do you want TC Scheduled (s) or TC Booked (b). Please enter exactly s or b: "
+        ).lower()
+        if which_params == "s":
+            payload = self.scheduled_parameters()
+        elif which_params == "b":
+            payload = self.booked_parameters()
         id_df = pd.read_csv("IDs.csv")[["Name", "ID"]]
         mapping = id_df.set_index("Name").to_dict()
 
