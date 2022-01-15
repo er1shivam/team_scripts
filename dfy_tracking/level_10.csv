@@ -1,0 +1,169 @@
+Metric Type,AT Total,90d Total,7d Total,Week Total,AT Average,90d Average,7d Average,Week Average
+,sum TC Booked,sum TC Booked,sum TC Booked,,avg TC Booked,avg TC Booked,avg TC Booked,
+TC Booked,5109,3063,385,185,26.20,34.03,48.13,92.50
+,sum SS Booked,sum SS Booked,sum SS Booked,,avg SS Booked,avg SS Booked,avg SS Booked,
+SS Booked,5,0,,0,0.04,0.00,,0.00
+,#VALUE!,#VALUE!,#VALUE!,,#VALUE!,#VALUE!,#VALUE!,
+FB Reach Outs,,,,0,,,,0.00
+,#VALUE!,#VALUE!,#VALUE!,,#VALUE!,#VALUE!,#VALUE!,
+FB SS,,,,0,,,,0.00
+,sum OB Dials,sum OB Dials,sum OB Dials,,avg OB Dials,avg OB Dials,avg OB Dials,
+OB Dials,1036,0,,0,18.50,0.00,,0.00
+,sum Outbound SS,sum Outbound SS,sum Outbound SS,,avg Outbound SS,avg Outbound SS,avg Outbound SS,
+Outbound SS,5,0,,0,0.09,0.00,,0.00
+,#VALUE!,#VALUE!,#VALUE!,,#VALUE!,#VALUE!,#VALUE!,
+IB Scheduled,,,,0,,,,0.00
+,#VALUE!,#VALUE!,#VALUE!,,#VALUE!,#VALUE!,#VALUE!,
+IB SS,,,,0,,,,0.00
+,sum Email Convos,sum Email Convos,sum Email Convos,,avg Email Convos,avg Email Convos,avg Email Convos,
+Email Convos,0,0,0,0,0.00,0.00,0.00,0.00
+,sum Email TC,sum Email TC,sum Email TC,,avg Email TC,avg Email TC,avg Email TC,
+Email TC,0,0,0,0,0.00,0.00,0.00,0.00
+,sum TC Cancels,sum TC Cancels,sum TC Cancels,,avg TC Cancels,avg TC Cancels,avg TC Cancels,
+TC Cancels,94,94,2,1,1.42,1.42,0.25,0.50
+,sum Calls Made,sum Calls Made,sum Calls Made,,avg Calls Made,avg Calls Made,avg Calls Made,0.00
+Calls Made,56630,56630,8947,2946,832.79,832.79,1118.38,1473.00
+,sum SMS Sent,sum SMS Sent,sum SMS Sent,,avg SMS Sent,avg SMS Sent,avg SMS Sent,0.00
+SMS Sent,6631,6631,914,314,97.51,97.51,114.25,157.00
+,sum Email Sent,sum Email Sent,sum Email Sent,,avg Email Sent,avg Email Sent,avg Email Sent,0.00
+Email Sent,6177,6177,877,321,90.84,90.84,109.63,160.50
+,sum Email Open,sum Email Open,sum Email Open,,avg Email Open,avg Email Open,avg Email Open,0.00
+Email Open,2906,2906,315,112,42.74,42.74,39.38,56.00
+,sum Morgan TC,sum Morgan TC,sum Morgan TC,,avg Morgan TC,avg Morgan TC,avg Morgan TC,0.00
+Morgan TC,5,5,0,0,0.07,0.07,0.00,0.00
+,sum Morgan SS,sum Morgan SS,sum Morgan SS,#N/A,avg Morgan SS,avg Morgan SS,avg Morgan SS,#N/A
+Morgan SS,107,107,15,10,1.49,1.49,1.88,5.00
+,sum Austin TC,sum Austin TC,sum Austin TC,#N/A,avg Austin TC,avg Austin TC,avg Austin TC,#N/A
+Austin TC,10,10,0,0,0.14,0.14,0.00,0.00
+,sum Austin SS,sum Austin SS,sum Austin SS,#N/A,avg Austin SS,avg Austin SS,avg Austin SS,#N/A
+Austin SS,41,41,0,0,0.57,0.57,0.00,0.00
+,sum Caycee TC,sum Caycee TC,sum Caycee TC,#N/A,avg Caycee TC,avg Caycee TC,avg Caycee TC,#N/A
+Caycee TC,28,28,2,0,0.39,0.39,0.25,0.00
+,sum Caycee SS,sum Caycee SS,sum Caycee SS,#N/A,avg Caycee SS,avg Caycee SS,avg Caycee SS,#N/A
+Caycee SS,219,219,21,11,3.04,3.04,2.63,5.50
+,sum Isela TC,sum Isela TC,sum Isela TC,#N/A,avg Isela TC,avg Isela TC,avg Isela TC,#N/A
+Isela TC,73,73,8,2,1.01,1.01,1.00,1.00
+,sum Isela SS,sum Isela SS,sum Isela SS,sum Isela SS,avg Isela SS,avg Isela SS,avg Isela SS,avg Isela SS
+Isela SS,283,283,54,22,3.93,3.93,6.75,11.00
+,sum Pat TC,sum Pat TC,sum Pat TC,sum Pat TC,avg Pat TC,avg Pat TC,avg Pat TC,
+Pat TC,64,64,4,2,0.89,0.89,0.50,1.00
+,sum Pat SS,sum Pat SS,sum Pat SS,sum Pat SS,avg Pat SS,avg Pat SS,avg Pat SS,
+Pat SS,121,121,15,4,1.68,1.68,1.88,2.00
+,sum Kayla Dials,sum Kayla Dials,sum Kayla Dials,,avg Kayla Dials,avg Kayla Dials,avg Kayla Dials,0.00
+Kayla Dials,5753,5753,133,50,79.90,79.90,16.63,25.00
+,sum Kayla Connect,sum Kayla Connect,sum Kayla Connect,,avg Kayla Connect,avg Kayla Connect,avg Kayla Connect,0.00
+Kayla Connect,869,869,71,26,12.07,12.07,8.88,13.00
+,sum Kayla TC,sum Kayla TC,sum Kayla TC,,avg Kayla TC,avg Kayla TC,avg Kayla TC,0.00
+Kayla TC,79,79,5,1,1.10,1.10,0.63,0.50
+,sum Kayla SS,sum Kayla SS,sum Kayla SS,,avg Kayla SS,avg Kayla SS,avg Kayla SS,0.00
+Kayla SS,182,182,27,10,2.53,2.53,3.38,5.00
+,sum Julio Dials,sum Julio Dials,sum Julio Dials,,avg Julio Dials,avg Julio Dials,avg Julio Dials,0.00
+Julio Dials,8045,8045,1145,405,111.74,111.74,143.13,202.50
+,sum Julio Connect,sum Julio Connect,sum Julio Connect,,avg Julio Connect,avg Julio Connect,avg Julio Connect,0.00
+Julio Connect,921,921,119,44,12.79,12.79,14.88,22.00
+,sum Julio TC,sum Julio TC,sum Julio TC,,avg Julio TC,avg Julio TC,avg Julio TC,0.00
+Julio TC,34,34,1,0,0.47,0.47,0.13,0.00
+,sum Julio SS,sum Julio SS,sum Julio SS,,avg Julio SS,avg Julio SS,avg Julio SS,0.00
+Julio SS,174,174,37,13,2.42,2.42,4.63,6.50
+,sum Sule Dials,sum Sule Dials,sum Sule Dials,,avg Sule Dials,avg Sule Dials,avg Sule Dials,0.00
+Sule Dials,6428,6428,175,0,89.28,89.28,21.88,0.00
+,sum Sule Connect ,sum Sule Connect ,sum Sule Connect ,,avg Sule Connect ,avg Sule Connect ,avg Sule Connect ,0.00
+Sule Connect,865,865,17,0,12.01,12.01,2.13,0.00
+,sum Sule TC,sum Sule TC,sum Sule TC,,avg Sule TC,avg Sule TC,avg Sule TC,0.00
+Sule TC,96,96,1,0,1.33,1.33,0.13,0.00
+,sum Sule SS,sum Sule SS,sum Sule SS,,avg Sule SS,avg Sule SS,avg Sule SS,0.00
+Sule SS,56,56,9,0,0.78,0.78,1.13,0.00
+,sum Noela Dials,sum Noela Dials,sum Noela Dials,,avg Noela Dials,avg Noela Dials,avg Noela Dials,0.00
+Noela Dials,5818,5818,1790,575,118.73,118.73,223.75,287.50
+,sum Noela Connect,sum Noela Connect,sum Noela Connect,,avg Noela Connect,avg Noela Connect,avg Noela Connect,0.00
+Noela Connect,776,776,286,85,15.84,15.84,35.75,42.50
+,sum Noela TC,sum Noela TC,sum Noela TC,,avg Noela TC,avg Noela TC,avg Noela TC,0.00
+Noela TC,209,209,78,21,4.27,4.27,9.75,10.50
+,sum Noela SS,sum Noela SS,sum Noela SS,,avg Noela SS,avg Noela SS,avg Noela SS,
+Noela SS,32,32,4,0,0.65,0.65,0.50,0.00
+,sum Sean Dials,sum Sean Dials,sum Sean Dials,,avg Sean Dials,avg Sean Dials,avg Sean Dials,
+Sean Dials,134,134,34,34,6.09,6.09,4.25,17.00
+,sum Sean Connect,sum Sean Connect,sum Sean Connect,,avg Sean Connect,avg Sean Connect,avg Sean Connect,
+Sean Connect,38,38,21,21,1.73,1.73,2.63,10.50
+,#VALUE!,#VALUE!,#VALUE!,,#VALUE!,#VALUE!,#VALUE!,0.00
+Sean TC,,,,2,,,,1.00
+,sum Sean SS,sum Sean SS,sum Sean SS,,avg Sean SS,avg Sean SS,avg Sean SS,
+Sean SS,16,16,15,15,0.73,0.73,1.88,7.50
+,sum Zach Dials,sum Zach Dials,sum Zach Dials,,avg Zach Dials,avg Zach Dials,avg Zach Dials,
+Zach Dials,2118,2118,1158,405,96.27272727,96.27272727,144.75,202.50
+,sum Zach Connect,sum Zach Connect,sum Zach Connect,,avg Zach Connect,avg Zach Connect,avg Zach Dials,
+Zach Connect,175,175,90,21,7.95,7.95,144.75,10.50
+,sum Zach TC,sum Zach TC,sum Zach TC,,avg Zach TC,avg Zach TC,avg Zach TC,
+Zach TC,24,24,14,1,1.09,1.09,1.75,0.50
+,sum Zach SS,sum Zach SS,sum Zach SS,,avg Zach SS,avg Zach SS,avg Zach SS,
+Zach SS,1,1,1,0,0.05,0.05,0.13,0.00
+,sum Molly N Dials,sum Molly N Dials,sum Molly N Dials,,avg Molly N Dials,avg Molly N Dials,avg Molly N Dials,
+Molly N Dials,392,392,392,200,56.00,56.00,56.00,100.00
+,sum Molly N Connect,sum Molly N Connect,sum Molly N Connect,,avg Molly N Connect,avg Molly N Connect,avg Molly N Connect,
+Molly N Connect,51,51,51,28,7.29,7.29,7.29,14.00
+,sum Molly N TC,sum Molly N TC,sum Molly N TC,,avg Molly N TC,avg Molly N TC,avg Molly N TC,
+Molly N TC,9,9,9,6,1.29,1.29,1.29,3.00
+,sum Molly N SS,sum Molly N SS,sum Molly N SS,,avg Molly N SS,avg Molly N SS,avg Molly N SS,
+Molly N SS,0,0,0,0,0.00,0.00,0.00,0.00
+,sum Sonja Dials,sum Sonja Dials,sum Sonja Dials,,avg Sonja Dials,avg Sonja Dials,avg Sonja Dials,
+Sonja Dials,102,102,102,50,20.40,20.40,20.40,25.00
+,sum Sonja Connect,sum Sonja Connect,sum Sonja Connect,,avg Sonja Connect,avg Sonja Connect,avg Sonja Connect,
+Sonja Connect,15,15,15,10,3.00,3.00,3.00,5.00
+,sum Sonja TC,sum Sonja TC,sum Sonja TC,,avg Sonja TC,avg Sonja TC,avg Sonja TC,
+Sonja TC,6,6,6,4,1.20,1.20,1.20,2.00
+,sum Sonja SS,sum Sonja SS,sum Sonja SS,,avg Sonja SS,avg Sonja SS,avg Sonja SS,
+Sonja SS,0,0,0,0,0.00,0.00,0.00,0.00
+,sum Molly C Dials,sum Molly C Dials,sum Molly C Dials,,avg Molly C Dials,avg Molly C Dials,avg Molly C Dials,
+Molly C Dials,3627,3627,330,0,74.02,74.02,41.25,0.00
+,sum Molly C Connect,sum Molly C Connect,sum Molly C Connect,,avg Molly C Connect,avg Molly C Connect,avg Molly C Connect,
+Molly C Connect,306,306,26,0,6.24,6.24,3.25,0.00
+,sum Molly C TC,sum Molly C TC,sum Molly C TC,,avg Molly C TC,avg Molly C TC,avg Molly C TC,
+Molly C TC,45,45,0,0,0.92,0.92,0.00,0.00
+,sum Molly C SS,sum Molly C SS,sum Molly C SS,,avg Molly C SS,avg Molly C SS,avg Molly C SS,
+Molly C SS,25,25,5,0,0.51,0.51,0.63,0.00
+,sum Donnah Off,sum Donnah Off,sum Donnah Off,,avg Donnah Off,avg Donnah Off,avg Donnah Off,0.00
+Donnah Off,567,567,80,35,8.22,8.22,10.00,17.50
+,sum Donnah TC,sum Donnah TC,sum Donnah TC,,avg Donnah TC,avg Donnah TC,avg Donnah TC,0.00
+Donnah TC,255,255,47,22,3.54,3.54,5.88,11.00
+,sum Liz Off,sum Liz Off,sum Liz Off,,avg Liz Off,avg Liz Off,avg Liz Off,0.00
+Liz Off,573,573,85,31,8.07,8.07,10.63,15.50
+,sum Liz TC,sum Liz TC,sum Liz TC,,avg Liz TC,avg Liz TC,avg Liz TC,0.00
+Liz TC,340,340,47,19,4.79,4.79,5.88,9.50
+,sum Jelyn Off,sum Jelyn Off,sum Jelyn Off,,avg Jelyn Off,avg Jelyn Off,avg Jelyn Off,0.00
+Jelyn Off,155,155,45,15,2.15,2.15,5.63,7.50
+,sum Jelyn TC,sum Jelyn TC,sum Jelyn TC,,avg Jelyn TC,avg Jelyn TC,avg Jelyn TC,0.00
+Jelyn TC,72,72,20,9,1.00,1.00,2.50,4.50
+,sum Jen Off,sum Jen Off,sum Jen Off,,avg Jen Off,avg Jen Off,avg Jen Off,0.00
+Jen Off,918,918,3,0,13.11,13.11,0.38,0.00
+,sum Jen TC,sum Jen TC,sum Jen TC,,avg Jen TC,avg Jen TC,avg Jen TC,0.00
+Jen TC,131,131,2,0,1.85,1.85,0.25,0.00
+,sum Rachel Off,sum Rachel Off,sum Rachel Off,,avg Rachel Off,avg Rachel Off,avg Rachel Off,0.00
+Rachel Off,0,0,0,0,0.00,0.00,0.00,0.00
+,sum Rachel TC,sum Rachel TC,sum Rachel TC,,avg Rachel TC,avg Rachel TC,avg Rachel TC,0.00
+Rachel TC,592,592,53,18,8.22,8.22,6.63,9.00
+,sum Amanda Off,sum Amanda Off,sum Amanda Off,,avg Amanda Off,avg Amanda Off,avg Amanda Off,0.00
+Amanda Off,260,260,59,25,3.66,3.66,7.38,12.50
+,sum Amanda TC,sum Amanda TC,sum Amanda TC,,avg Amanda TC,avg Amanda TC,avg Amanda TC,0.00
+Amanda TC,223,223,49,24,3.14,3.14,6.13,12.00
+,sum Gussi Task,sum Gussi Task,sum Gussi Task,,avg Gussi Task,avg Gussi Task,avg Gussi Task,0.00
+Gussi Task,270,270,33,6,3.75,3.75,4.13,3.00
+,sum Marl Task,sum Marl Task,sum Marl Task,,avg Marl Task,avg Marl Task,avg Marl Task,0.00
+Marl Task,390,390,60,19,5.42,5.42,7.50,9.50
+,sum Roxan Task,sum Roxan Task,sum Roxan Task,,avg Roxan Task,avg Roxan Task,avg Roxan Task,0.00
+Roxan Task,494,494,61,24,6.86,6.86,7.63,12.00
+,sum David Task,sum David Task,sum David Task,,avg David Task,avg David Task,avg David Task,0.00
+David Task,429,429,61,24,5.96,5.96,7.63,12.00
+,sum Mary Tasks,sum Mary Tasks,sum Mary Tasks,,avg Mary Tasks,avg Mary Tasks,avg Mary Tasks,
+Mary Task,405,405,48,12,5.63,5.63,6.00,6.00
+,sum Tylee P TC,sum Tylee P TC,sum Tylee P TC,,avg Tylee P TC,avg Tylee P TC,avg Tylee P TC,0.00
+Girls TC,918,918,179,64,12.75,12.75,22.38,32.00
+,sum Tylee P SS,sum Tylee P SS,sum Tylee P SS,,avg Tylee P SS,avg Tylee P SS,avg Tylee P SS,0.00
+Girls SS,887,887,165,70,12.32,12.32,20.63,35.00
+,sum Jack P TC,sum Jack P TC,sum Jack P TC,,avg Jack P TC,avg Jack P TC,avg Jack P TC,0.00
+No_name TC,739,739,101,45,10.26,10.26,12.63,22.50
+,sum Jack P SS,sum Jack P SS,sum Jack P SS,,avg Jack P SS,avg Jack P SS,avg Jack P SS,0.00
+No_name SS,720,720,100,33,10.00,10.00,12.50,16.50
+,sum LR Tasks,sum LR Tasks,sum LR Tasks,,avg LR Tasks,avg LR Tasks,avg LR Tasks,0.00
+LR Task,646,646,199,76,13.46,13.46,24.88,38.00
+,sum LR Coaching,sum LR Coaching,sum LR Coaching,,avg LR Coaching,avg LR Coaching,avg LR Coaching,0.00
+LR Hour,2160,2160,540,150,42.35,42.35,67.50,75.00
