@@ -1,8 +1,10 @@
-from email import header
+import datetime
+from hashlib import new
 import gspread
 import pandas as pd
 import numpy as np
 import requests
+from collections import Counter
 
 gc = gspread.oauth()
 message_data_sheet = gc.open_by_url(
@@ -190,28 +192,74 @@ class Leaderboard:
         return sorted_dataframe_of_TC_and_SS
 
 
-url = "https://api.oncehub.com/v2/bookings?"
+url = "https://api.oncehub.com/v2/bookings?expand=booking_page&limit=100"
 headers = {
     "Accept": "application/json",
     "API-Key": "d7459f78d474f09276b4d708d2f2a161",
 }
-params = {"limit": 100}
 
 
 class ScheduleOnce:
-    def __init__(self, url, headers, params):
+    def __init__(self, url, headers):
         self.url = url
         self.headers = headers
-        self.params = params
 
-    def getBookingList(self):
+    def getFullBookingList(self):
+        response = requests.request("GET", url=self.url, headers=self.headers)
+        booking_list = response.json()["data"]
+
+        return booking_list
+
+    def getTCScheduledorTCBookedYesterday(self):
+        from_date = str(datetime.date.today() - datetime.timedelta(5))
+        to_date = str(datetime.date.today())
+        which_params = input(
+            "Do you want TC Scheduled (s) or TC Booked (b). Please enter exactly s or b: "
+        ).lower()
+        if which_params == "s":
+            params = {
+                "starting_time.gt": from_date,
+                "starting_time.lt": to_date,
+            }
+        elif which_params == "b":
+            params = {"creation_time.gt": from_date, "creation_time.lt": to_date}
+
         response = requests.request(
-            "GET", url=self.url, headers=self.headers, params=self.params
+            "GET", url=self.url, headers=self.headers, params=params
         )
         booking_list = response.json()["data"]
 
         return booking_list
 
+    def getBookingDataFromListOfBookings(self):
+        bookings = self.getTCScheduledorTCBookedYesterday()
+        booking_data = []
 
-ls = ScheduleOnce(url, headers, params).getBookingList()
-print(len(ls) == params["limit"])
+        for booking in bookings:
+            page_source_name = {}
+            page_source_name["Name"] = booking["form_submission"]["name"]
+            page_source_name["Page Name"] = booking["booking_page"]["label"]
+            try:
+                page_source_name["Source"] = booking["form_submission"][
+                    "custom_fields"
+                ][0]["value"]
+            except:
+                page_source_name["Source"] = "Inbound Triage"
+            booking_data.append(page_source_name)
+
+        return booking_data
+
+    def getValueCountsFromSourceOfPageName(self):
+        booking_data = self.getBookingDataFromListOfBookings()
+        df = pd.DataFrame(booking_data)
+        grouped_by_source = df.groupby("Page Name")["Source"].value_counts()
+
+        return grouped_by_source
+
+
+all_bookings = ScheduleOnce(url, headers).getFullBookingList()
+
+after_id = all_bookings[-1]["id"]
+output_url = "https://api.oncehub.com/v2/bookings?after=" + after_id + "&limit=100"
+
+value_counts = ScheduleOnce(url, headers).getValueCountsFromSourceOfPageName()

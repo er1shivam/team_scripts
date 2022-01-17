@@ -2,6 +2,7 @@ import pytest
 import gspread
 import numpy as np
 import pandas as pd
+import datetime
 from dfysetters_for_test import ScheduleOnce
 from dfysetters_for_test import FBTracking
 from dfysetters_for_test import AveragePerConversation
@@ -173,7 +174,7 @@ class TestLeaderboard:
         assert all([girls_result, isela_result, amanda_result])
 
 
-url = "https://api.oncehub.com/v2/bookings?"
+url = "https://api.oncehub.com/v2/bookings?expand=booking_page&limit=100"
 headers = {
     "Accept": "application/json",
     "API-Key": "d7459f78d474f09276b4d708d2f2a161",
@@ -182,6 +183,37 @@ params = {"limit": 100}
 
 
 class TestScheduleOnce:
-    def test_getBookingList(self):
-        booking_list = ScheduleOnce(url, headers, params).getBookingList()
-        assert len(booking_list) == params["limit"]
+    def test_getFullBookingList(self):
+        booking_list = ScheduleOnce(url, headers).getFullBookingList()
+        assert len(booking_list) == 100
+
+    def test_getTCScheduledorTCBookedYesterday(self):
+        booking_list = ScheduleOnce(url, headers).getTCScheduledorTCBookedYesterday()
+
+        yesterday = str(datetime.date.today() - datetime.timedelta(1))
+
+        starting_times = set()
+        for f in booking_list:
+            starting_times.add(f["starting_time"][0:10])
+
+        starting = list(starting_times)[0]
+
+        created = set()
+        for f in booking_list:
+            created.add(f["creation_time"][0:10])
+
+        create = list(created)[0]
+        assert create == yesterday or starting == yesterday
+
+    def test_getBookingDataFromListOfBookings(self):
+        booking_data = ScheduleOnce(url, headers).getBookingDataFromListOfBookings()
+        assert not any(
+            d["Page Name"] == "Big Rig Freight Services" for d in booking_data
+        )
+
+    def test_getValueCountsFromSourceOfPageName(self):
+        booking_data = ScheduleOnce(url, headers).getValueCountsFromSourceOfPageName()
+        indexes = list(booking_data.index)
+        check = [item for item in indexes if item[0] == "Big Freight Services"]
+        check2 = [item for item in indexes if item[1] == "Outbound Dial"]
+        assert (len(check) > 0) and (len(check2) > 0)
