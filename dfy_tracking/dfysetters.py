@@ -1,299 +1,198 @@
-from datetime import date
+import datetime
+import gspread
 import pandas as pd
-import json
-import os
+import numpy as np
 import requests
-from datetime import timedelta
+
+gc = gspread.oauth()
+message_data_sheet = gc.open_by_url(
+    "https://docs.google.com/spreadsheets/d/1IfZlLzzwkC05I6fv-4ZRNFOc7ul7k0qIfeG-bk9j6AA/edit#gid=81738738"
+).sheet1
+
+specialist_name = "Tylee Evans Groll"
+
+level_10 = gc.open_by_url(
+    "https://docs.google.com/spreadsheets/d/1Y7cQYW1MJ1HstJVJEADVqKgbI-bOMyv74159jOJQtc4/edit#gid=1480274768"
+).sheet1
+
+role_dictionary = {
+    "Pod Leads": ["Girls", "No_name"],
+    "Snr Specialists": [
+        "Morgan",
+        "Isela",
+        "Caycee",
+        "Pat",
+        "Sean",
+        "Kayla",
+        "Molly N",
+    ],
+    "Jnr Specialists": ["Noela", "Molly C", "Zach"],
+    "Setters": [
+        "Alex",
+        "Amanda",
+        "Donnah",
+        "Liz",
+        "Jelyn",
+        "Monica",
+        "Rachel",
+        "Suleyma",
+    ],
+}
 
 
 class FBTracking:
-    def __init__(self, gc, url, sh, worksheet, specialist):
-        self.gc = gc
-        self.url = url
-        self.sh = sh
-        self.worksheet = worksheet
+    def __init__(self, sheet, specialist):
+        self.sheet = sheet
         self.specialist = specialist
 
-    def find_unanswered(self):
-        df = pd.DataFrame(self.worksheet.get_all_records())
-        df = df[["Conversation", "Timestamp (ms)", "Sender"]]
-        last_message_time = df.groupby(["Conversation"])["Timestamp (ms)"].max()
+    def getSheetValues(self):
+        message_data = self.sheet.get_all_records()
+        return message_data
 
-        sender = []
-        for value in last_message_time[1:]:
-            row = df.loc[df["Timestamp (ms)"] == value]
-            sender.append(row["Sender"].values[0])
+    def emptyDictionary(self):
+        messages = self.getSheetValues()
+        all_messages = [i for i in messages if (len(i["Conversation"]) > 2)]
+        return all_messages
 
-        unanswered_message_count = len(sender) - sender.count(self.specialist)
+    def dictionaryToDataframe(self):
+        messages = self.emptyDictionary()
+        dataframe = pd.DataFrame(messages)
+        return dataframe
 
-        return unanswered_message_count
+    def groupbyConversation(self):
+        df = self.dictionaryToDataframe()
+        grouped_df = df.groupby(["Conversation"])["Timestamp (ms)"].max()
+        return grouped_df
 
-    def value_counts_df(self):
-        df = pd.DataFrame(self.worksheet.get_all_records())
-        messages = df.groupby(["Message"]).count()["Conversation"]
-        message_counts = (
-            messages.to_frame()
-            .sort_values(by="Conversation", ascending=False)
-            .reset_index()
-        )
-        message_counts["Date"] = date.today()
-        message_counts["Account"] = self.specialist
+    def listLastSenders(self):
+        df = self.dictionaryToDataframe()
+        group = self.groupbyConversation()
+        last_sender = []
+        for row in group:
+            last_sender.append(df.loc[df["Timestamp (ms)"] == row]["Sender"].values[0])
+        return last_sender
 
-        return message_counts
+    def countUnanswered(self):
+        senders = self.listLastSenders()
+        return len(senders) - senders.count(self.specialist)
 
-    def average_per_conversation(self):
-        df = pd.DataFrame(self.worksheet.get_all_records())
-        df = df[df["Timestamp (ms)"].str.strip().astype(bool)]
-        df["Timestamp Int"] = df["Timestamp (ms)"].astype(int)
 
-        timestamp_df = df.groupby(["Conversation", "Timestamp Int"])[
+class AveragePerConversation:
+    def __init__(self, dataframe):
+        self.dataframe = dataframe
+
+    def getProspectNamesInDictionary(self):
+        df = self.dataframe
+        name_list = sorted(set(list(df["Conversation"].values)))
+        return name_list
+
+    def groupDataframeByTimestamp(self):
+        timestamp_df = self.dataframe.groupby(["Conversation", "Timestamp (ms)"])[
             "Timestamp (ms)"
         ].unique()
+        return timestamp_df
 
-        name_dict = {
-            name: []
-            for name in sorted(list(set([name for name in df["Conversation"]])))
-            if name
-        }
+    def createDictionaryWithProspectNamesAndListOfReplyTimes(self):
+        name_list = self.getProspectNamesInDictionary()
+        timestamp_df = self.groupDataframeByTimestamp()
+        dictionary_of_reply_times = {}
+        for name in name_list:
+            dictionary_of_reply_times[name] = timestamp_df[name].astype(int).tolist()
 
-        average_time_dict = {name: "" for name in name_dict if name}
+        return dictionary_of_reply_times
 
-        for name in name_dict:
-            name_dict[name] = timestamp_df[name].astype(int).tolist()
-
-        for name in name_dict:
-            s_difference = 0
-            for index, time in enumerate(name_dict[name]):
-                if index + 1 == len(name_dict[name]):
-                    pass
-                else:
-                    ms_difference = abs(
-                        name_dict[name][index] - name_dict[name][index + 1]
-                    )
-                    s_difference += round(ms_difference / 60000)
-            if len(name_dict[name]) < 2:
-                del average_time_dict[name]
-            else:
-                convo_avg = round(s_difference / (len(name_dict[name]) - 1), 2)
-                average_time_dict[name] = convo_avg
-
-        average_time_df = (
-            pd.DataFrame.from_dict(average_time_dict, orient="index")
-            .reset_index()
-            .rename(columns={"index": "Conversation Name", 0: "Time To Reply (m)"})
-        )
-
-        average_time_df["Date"] = date.today()
-        average_time_df["Account"] = self.specialist
-
-        return average_time_df
-
-    def average_of_all_conversations(self):
-        average_time_df = self.average_per_conversation()
-        return round(average_time_df[average_time_df.columns[1]].mean(), 2)
-
-
-class Conversion:
-    def __init__(self, gc, sh, worksheet, specialist):
-        self.gc = gc
-        self.sh = sh
-        self.worksheet = worksheet
-        self.specialist = specialist
-
-    def create_dict(self, data):
-
-        messages = data["messages"]
-        conversation_list = []
-        newdict = {"Conversation": "", "Sender": "", "Message": "", "Timestamp": ""}
-        for message in messages:
-            newdict["Conversation"] = data["title"]
-            newdict["Sender"] = message["sender_name"]
-            newdict["Timestamp"] = message["timestamp_ms"]
-            try:
-                newdict["Message"] = message["content"]
-            except KeyError:
-                print(
-                    "There was a Key Error, this means the content was either a stick or an emoji"
-                )
-
-            conversation_list.append(newdict.copy())
-
-        return conversation_list
-
-    def get_filepaths(self):
-        filelist = []
-        main_path = "/Users/" + os.environ["USER"] + "/Downloads/messages/inbox/"
-        for folder in os.listdir(main_path):
-            if folder.endswith(".DS_Store"):
+    def getAverageReplyTimePerConversation(self, name):
+        reply_time_dict = self.createDictionaryWithProspectNamesAndListOfReplyTimes()
+        reply_times = []
+        for index, time in enumerate(reply_time_dict[name]):
+            if index + 1 == len(reply_time_dict[name]):
                 pass
             else:
-                for filename in os.listdir(main_path + folder):
-                    if filename.endswith(".json"):
-                        filelist.append(main_path + folder + "/" + filename)
+                first_message_time = reply_time_dict[name][index]
+                next_message_time = reply_time_dict[name][index + 1]
+                reply_times.append(next_message_time - first_message_time)
+        return np.mean(reply_times)
 
-        return filelist
+    def getAverageReplyTimeOfAllConversations(self):
+        reply_time_dict = self.createDictionaryWithProspectNamesAndListOfReplyTimes()
+        list_of_averages = []
+        for name in reply_time_dict:
+            avg_time = self.getAverageReplyTimePerConversation(name)
+            list_of_averages.append(str(avg_time))
 
-    def convert_json(self, filelist):
-        message_dictionary = []
-        for path in filelist:
-            with open(path) as f:
-                data = json.load(f)
-                message_dictionary.append(self.create_dict(data))
+        cleaned_averages = [float(i) for i in list_of_averages if i != "nan"]
+        return np.mean(cleaned_averages)
 
-        return message_dictionary
-
-    def create_dataframe(self, message_dictionary):
-
-        df = pd.DataFrame()
-        for conversation in message_dictionary:
-            df = df.append(pd.DataFrame(conversation), ignore_index=True)
-
-        return df
+    def convertMstoMinutes(self, ms_measurement):
+        return round(ms_measurement / 60000, 2)
 
 
 class Leaderboard:
-    def __init__(self, gc, sh, worksheet):
-        self.gc = gc
-        self.sh = sh
-        self.worksheet = worksheet
+    def __init__(self, sheet):
+        self.sheet = sheet
 
-    def create_dfs(self):
-
-        df = pd.DataFrame.from_dict(self.worksheet.get_all_records())
-        df.set_index("Totals | Daily Average", inplace=True)
-        df = df["Week Total"]
-
-        pod_names = ["Girls SS", "No_name SS"]
-        snr_specialist_names = [
-            "Morgan SS",
-            "Austin SS",
-            "Caycee SS",
-            "Isela SS",
-            "Pat SS",
-        ]
-        jnr_specialists_names = [
-            "Kayla TC",
-            "Kayla SS",
-            "Julio TC",
-            "Julio SS",
-            "Sule TC",
-            "Sule SS",
-            "Noela TC",
-            "Noela SS",
-            "Molly TC",
-            "Molly SS",
-        ]
-        setter_names = [
-            "Donnah TC",
-            "Liz TC",
-            "Jelyn TC",
-            "Jen TC",
-            "Rachel TC",
-            "Amanda TC",
-        ]
-        ops_names = ["Gussi Task", "Marl Task", "Roxan Task", "David Task"]
-
-        return (
-            pod_names,
-            snr_specialist_names,
-            jnr_specialists_names,
-            setter_names,
-            ops_names,
-            df,
+    def getWeekTotalFromLevel10(self):
+        level_10_data = self.sheet.get_all_records()
+        level_10_df = (
+            pd.DataFrame(level_10_data)[["Metric Type", "Week Total"]]
+            .dropna()
+            .set_index("Metric Type")
         )
+        return level_10_df
 
-    def create_7d_total(self):
-        seven_day_total = {
-            "Pods": [],
-            "Snr Specialists": [],
-            "Jnr Specialists": [],
-            "Setters": [],
-            "Ops": [],
-        }
+    def getDictionaryOfCellsToCheck(self, role_dictionary):
+        cells_to_check = {}
+        full_list = list(self.getWeekTotalFromLevel10().index.values)
 
-        (
-            pod_names,
-            snr_specialist_names,
-            jnr_specialists_names,
-            setter_names,
-            ops_names,
-            df,
-        ) = self.create_dfs()
+        for role, person_list in role_dictionary.items():
+            metrics = []
+            for person in person_list:
+                for i in full_list:
+                    if person in i:
+                        metrics.append(i)
+                        cells_to_check[role] = metrics
+        return cells_to_check
 
-        pod_df = df.loc[pod_names]
-        snr_specialist_df = df.loc[snr_specialist_names]
-        jnr_specialists_df = df.loc[jnr_specialists_names]
-        setter_df = df.loc[setter_names]
-        ops_df = df.loc[ops_names]
+    def getValueForEachTeamMemberInTheirRole(self):
 
-        seven_day_total["Pods"] = (
-            pod_df.to_frame()
-            .sort_values(by="Week Total", ascending=False)
-            .to_dict()["Week Total"]
-        )
-        seven_day_total["Snr Specialists"] = (
-            snr_specialist_df.to_frame()
-            .sort_values(by="Week Total", ascending=False)
-            .to_dict()["Week Total"]
-        )
+        df = self.getWeekTotalFromLevel10()
+        cells = self.getDictionaryOfCellsToCheck(role_dictionary)
 
-        mydf = jnr_specialists_df.to_frame()
+        dep_pep = {}
+        for role, person_list in cells.items():
+            values_per_department = {}
+            for person in person_list:
+                values_per_department[person] = int(df.loc[person].values[0])
+            dep_pep[role] = values_per_department
 
-        counts = {
-            "Kayla Score": 0,
-            "Julio Score": 0,
-            "Sule Score": 0,
-            "Noela Score": 0,
-            "Molly Score": 0,
-        }
-        for index in mydf.index:
-            ss_count = 0
-            name = index.split()[0] + " Score"
-            if "SS" in index:
-                ss_count += mydf.loc[index]["Week Total"] * 5
-                counts[name] = ss_count
+        dataframe_with_score_and_role = pd.DataFrame(dep_pep)
 
-        for index in mydf.index:
-            name = index.split()[0] + " Score"
-            if "TC" in index:
-                counts[name] = mydf.loc[index]["Week Total"] + counts[name]
+        return dataframe_with_score_and_role
 
-        seven_day_total["Jnr Specialists"] = counts
+    def getSortedTCandSSNumbersForTeamMember(self):
 
-        seven_day_total["Setters"] = (
-            setter_df.to_frame()
-            .sort_values(by="Week Total", ascending=False)
-            .to_dict()["Week Total"]
-        )
-        seven_day_total["Ops"] = (
-            ops_df.to_frame()
-            .sort_values(by="Week Total", ascending=False)
-            .to_dict()["Week Total"]
-        )
-        return seven_day_total, counts
+        df = self.getValueForEachTeamMemberInTheirRole()
+        columns_for_frame = list(role_dictionary.keys())
 
-    def leaderboard(self):
+        list_of_df = []
+        for col in columns_for_frame:
+            if col == "Jnr Specialists" or col == "Setters":
+                frame = df[df[col].index.str.contains("TC")]
+            elif col == "Snr Specialists" or col == "Pod Leads":
+                frame = df[df[col].index.str.contains("SS")]
 
-        seven_day_total, counts = self.create_7d_total()
-        updated_df = pd.DataFrame.from_dict(seven_day_total)
+            res = frame[col].dropna().sort_values(ascending=False)
+            list_of_df.append(res)
 
-        (
-            pod_names,
-            snr_specialist_names,
-            jnr_specialists_names,
-            setter_names,
-            ops_names,
-            df,
-        ) = self.create_dfs()
-        pod_lead = updated_df[updated_df.index.isin(pod_names)]["Pods"]
-        snr_spec = updated_df[updated_df.index.isin(snr_specialist_names)][
-            "Snr Specialists"
-        ]
-        jnr_spec = updated_df[updated_df.index.isin(counts.keys())]["Jnr Specialists"]
-        setter = updated_df[updated_df.index.isin(setter_names)]["Setters"]
-        op = updated_df[updated_df.index.isin(ops_names)]["Ops"]
+        sorted_dataframe_of_TC_and_SS = pd.concat(list_of_df, axis=1)
 
-        return pd.concat([pod_lead, snr_spec, jnr_spec, setter, op])
+        return sorted_dataframe_of_TC_and_SS
+
+
+headers = {
+    "Accept": "application/json",
+    "API-Key": "d7459f78d474f09276b4d708d2f2a161",
+}
 
 
 class ScheduleOnce:
@@ -301,88 +200,78 @@ class ScheduleOnce:
         self.url = url
         self.headers = headers
 
-    def booked_parameters(self):
-        from_date = str(date.today() - timedelta(1))
-        to_date = str(date.today())
-        payload = {
-            "creation_time.gt": from_date,
-            "creation_time.lt": to_date,
-            "limit": 100,
-        }
+    def getFullBookingList(self):
+        response = requests.request("GET", url=self.url, headers=self.headers)
+        booking_list = response.json()["data"]
 
-        return payload
+        return booking_list
 
-    def scheduled_parameters(self):
-        from_date = str(date.today() - timedelta(1))
-        to_date = str(date.today())
-        payload = {
-            "starting_time.gt": from_date,
-            "starting_time.lt": to_date,
-            "limit": 100,
-        }
-
-        return payload
-
-    def create_dictionary_of_each_booking(self):
+    def getTCScheduledorTCBookedYesterday(self):
+        from_date = str(datetime.date.today() - datetime.timedelta(1))
+        to_date = str(datetime.date.today())
         which_params = input(
             "Do you want TC Scheduled (s) or TC Booked (b). Please enter exactly s or b: "
         ).lower()
         if which_params == "s":
-            payload = self.scheduled_parameters()
+            params = {
+                "starting_time.gt": from_date,
+                "starting_time.lt": to_date,
+            }
         elif which_params == "b":
-            payload = self.booked_parameters()
-        id_df = pd.read_csv("IDs.csv")[["Name", "ID"]]
-        mapping = id_df.set_index("Name").to_dict()
+            params = {"creation_time.gt": from_date, "creation_time.lt": to_date}
 
-        listofresponses = []
         response = requests.request(
-            "GET", self.url, headers=self.headers, params=payload
+            "GET", url=self.url, headers=self.headers, params=params
         )
         booking_list = response.json()["data"]
-        for single_booking in booking_list:
-            booking_data = {
-                "Status": "",
-                "Created Time": "",
-                "Start Time": "",
-                "Customer Time Zone": "",
-                "Prospect Name": "",
-                "Prospect Email": "",
-                "Propsect Phone": "",
-                "Booking Page": "",
-                "Master Page": "",
-                "Event Type": "",
-                "Email Booked On": "",
-                "Event ID": "",
-                "Source": "",
-            }
-            booking_data["Status"] = single_booking["status"]
-            booking_data["Created Time"] = single_booking["creation_time"]
-            booking_data["Start Time"] = single_booking["starting_time"]
-            booking_data["Customer Time Zone"] = single_booking["customer_timezone"]
-            booking_data["Prospect Name"] = single_booking["form_submission"]["name"]
-            booking_data["Prospect Email"] = single_booking["form_submission"]["email"]
-            booking_data["Propsect Phone"] = single_booking["form_submission"][
-                "mobile_phone"
-            ]
-            booking_data["Booking Page"] = mapping["ID"][single_booking["booking_page"]]
-            booking_data["Master Page"] = [single_booking["master_page"]]
-            booking_data["Event Type"] = single_booking["event_type"]
-            booking_data["Email Booked On"] = single_booking["external_calendar"]["id"]
-            booking_data["Event Name"] = single_booking["subject"]
-            if len(single_booking["form_submission"]) < 8:
-                booking_data["Source"] = "Inbound Triage"
-            elif len(single_booking["form_submission"]) > 7:
-                booking_data["Source"] = single_booking["form_submission"][
+
+        return booking_list
+
+    def appendMultipleAPIPagesOfTCScheduledorBooked(self):
+        bookings = []
+
+        while True:
+            all_bookings = self.getTCScheduledorTCBookedYesterday()
+            if len(all_bookings) == 100:
+                after_id = all_bookings[-1]["id"]
+                url = (
+                    "https://api.oncehub.com/v2/bookings?after="
+                    + after_id
+                    + "&limit=100&expand=booking_page"
+                )
+                new_bookings = ScheduleOnce(
+                    url, headers
+                ).getTCScheduledorTCBookedYesterday()
+                bookings.append(new_bookings)
+            elif len(all_bookings) < 100:
+                break
+
+            bookings.append(all_bookings)
+            new_bookings = [item for sublist in bookings for item in sublist]
+
+            return new_bookings
+
+    def getBookingDataFromListOfBookings(self):
+        bookings = self.appendMultipleAPIPagesOfTCScheduledorBooked()
+        booking_data = []
+
+        for booking in bookings:
+            page_source_name = {}
+            page_source_name["Name"] = booking["form_submission"]["name"]
+            page_source_name["Page Name"] = booking["booking_page"]["label"]
+            try:
+                page_source_name["Source"] = booking["form_submission"][
                     "custom_fields"
                 ][0]["value"]
-            listofresponses.append(booking_data.copy())
+            except:
+                page_source_name["Source"] = "Inbound Triage"
+            booking_data.append(page_source_name)
 
-        return listofresponses
+        return booking_data
 
-    def create_value_counts_dataframe(self):
-        listofresponses = self.create_dictionary_of_each_booking()
-        df = pd.DataFrame(listofresponses)
-        grouped_df = df.groupby("Booking Page")
-        tc_scheduled_numbers = grouped_df["Source"].value_counts()
+    def getValueCountsFromSourceOfPageName(self):
+        booking_data = self.getBookingDataFromListOfBookings()
+        df = pd.DataFrame(booking_data)
+        grouped_by_source = df.groupby("Page Name")["Source"].value_counts()
 
-        return tc_scheduled_numbers
+        return grouped_by_source

@@ -3,10 +3,10 @@ import gspread
 import numpy as np
 import pandas as pd
 import datetime
-from dfysetters_for_test import ScheduleOnce
-from dfysetters_for_test import FBTracking
-from dfysetters_for_test import AveragePerConversation
-from dfysetters_for_test import Leaderboard
+from dfysetters import ScheduleOnce
+from dfysetters import FBTracking
+from dfysetters import AveragePerConversation
+from dfysetters import Leaderboard
 
 gc = gspread.oauth()
 message_data_sheet = gc.open_by_url(
@@ -102,8 +102,6 @@ level_10 = gc.open_by_url(
     "https://docs.google.com/spreadsheets/d/1Y7cQYW1MJ1HstJVJEADVqKgbI-bOMyv74159jOJQtc4/edit#gid=1480274768"
 ).sheet1
 
-other_sheet = pd.read_csv("level_10.csv")
-
 role_dictionary = {
     "Pod Leads": ["Girls", "No_name"],
     "Snr Specialists": [
@@ -130,19 +128,19 @@ role_dictionary = {
 
 
 class TestLeaderboard:
-    def test_getDataFromLevel10(self):
-        data = Leaderboard(other_sheet).getWeekTotalFromLevel10()
+    def test_getWeekTotalromLevel10(self):
+        data = Leaderboard(level_10).getWeekTotalFromLevel10()
         week_data = data["Week Total"].values
-        sum_of_week_total = sum([int(i) for i in week_data])
+        sum_of_week_total = sum([i for i in week_data if isinstance(i, int)])
         assert isinstance(sum_of_week_total, int)
 
     def test_getDictionaryOfCellsToCheck(self):
-        returned_dict = Leaderboard(other_sheet).getDictionaryOfCellsToCheck(
+        returned_dict = Leaderboard(level_10).getDictionaryOfCellsToCheck(
             role_dictionary
         )
         list_of_keys_in_dictionary = list(returned_dict.values())
         list_of_keys_in_data = list(
-            Leaderboard(other_sheet).getWeekTotalFromLevel10().index.values
+            Leaderboard(level_10).getWeekTotalFromLevel10().index.values
         )
         flattened_dictionary = [
             item for sublist in list_of_keys_in_dictionary for item in sublist
@@ -150,14 +148,14 @@ class TestLeaderboard:
         assert all(elem in list_of_keys_in_data for elem in flattened_dictionary)
 
     def test_getValueForEachTeamMemberInTheirRole(self):
-        df = Leaderboard(other_sheet).getValueForEachTeamMemberInTheirRole()
+        df = Leaderboard(level_10).getValueForEachTeamMemberInTheirRole()
         frame_columns = list(df.columns)
         role_columns = list(role_dictionary.keys())
         assert role_columns == frame_columns
 
     def test_getSortedTCandSSNumbersForTeamMember(self):
-        df = Leaderboard(other_sheet).getSortedTCandSSNumbersForTeamMember()
-        basic_df = Leaderboard(other_sheet).getWeekTotalFromLevel10()
+        df = Leaderboard(level_10).getSortedTCandSSNumbersForTeamMember()
+        basic_df = Leaderboard(level_10).getWeekTotalFromLevel10()
 
         girls_ss_sorted = int(df.loc["Girls SS"]["Pod Leads"])
         isela_ss_sorted = int(df.loc["Isela SS"]["Snr Specialists"])
