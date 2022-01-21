@@ -3,10 +3,11 @@ import gspread
 import numpy as np
 import pandas as pd
 import datetime
-from dfysetters import ScheduleOnce
-from dfysetters import FBTracking
-from dfysetters import AveragePerConversation
-from dfysetters import Leaderboard
+from dfysetters.facebook_tracking import AveragePerConversation
+from dfysetters.facebook_tracking import UnansweredMessages
+from dfysetters.facebook_tracking import ScheduleOnce
+from dfysetters.facebook_tracking import Leaderboard
+
 
 gc = gspread.oauth()
 message_data_sheet = gc.open_by_url(
@@ -14,16 +15,51 @@ message_data_sheet = gc.open_by_url(
 ).sheet1
 specialist_name = "Tylee Evans Groll"
 
+url = "https://api.oncehub.com/v2/bookings?expand=booking_page&limit=100"
+headers = {
+    "Accept": "application/json",
+    "API-Key": "d7459f78d474f09276b4d708d2f2a161",
+}
+params = {"limit": 100}
+
+level_10 = gc.open_by_url(
+    "https://docs.google.com/spreadsheets/d/1Y7cQYW1MJ1HstJVJEADVqKgbI-bOMyv74159jOJQtc4/edit#gid=1480274768"
+).sheet1
+
+role_dictionary = {
+    "Pod Leads": ["Girls", "No_name"],
+    "Snr Specialists": [
+        "Morgan",
+        "Isela",
+        "Caycee",
+        "Pat",
+        "Sean",
+        "Kayla",
+        "Molly N",
+    ],
+    "Jnr Specialists": ["Noela", "Molly C", "Zach"],
+    "Setters": [
+        "Alex",
+        "Amanda",
+        "Donnah",
+        "Liz",
+        "Jelyn",
+        "Monica",
+        "Rachel",
+        "Suleyma",
+    ],
+}
+
 
 @pytest.fixture()
 def tracking():
-    tracking = FBTracking(message_data_sheet, specialist_name)
+    tracking = UnansweredMessages(message_data_sheet, specialist_name)
     return tracking
 
 
 @pytest.fixture()
 def averages():
-    df = FBTracking(message_data_sheet, specialist_name).dictionaryToDataframe()
+    df = UnansweredMessages(message_data_sheet, specialist_name).dictionaryToDataframe()
     averages = AveragePerConversation(df)
     return averages
 
@@ -98,49 +134,22 @@ class TestAveragePerConversation:
         assert 1440 > ms_response > 0.009
 
 
-level_10 = gc.open_by_url(
-    "https://docs.google.com/spreadsheets/d/1Y7cQYW1MJ1HstJVJEADVqKgbI-bOMyv74159jOJQtc4/edit#gid=1480274768"
-).sheet1
-
-role_dictionary = {
-    "Pod Leads": ["Girls", "No_name"],
-    "Snr Specialists": [
-        "Morgan",
-        "Isela",
-        "Caycee",
-        "Pat",
-        "Sean",
-        "Kayla",
-        "Molly N",
-    ],
-    "Jnr Specialists": ["Noela", "Molly C", "Zach"],
-    "Setters": [
-        "Alex",
-        "Amanda",
-        "Donnah",
-        "Liz",
-        "Jelyn",
-        "Monica",
-        "Rachel",
-        "Suleyma",
-    ],
-}
-
-
 class TestLeaderboard:
     def test_getWeekTotalromLevel10(self):
-        data = Leaderboard(level_10).getWeekTotalFromLevel10()
+        data = Leaderboard(level_10, role_dictionary).getWeekTotalFromLevel10()
         week_data = data["Week Total"].values
         sum_of_week_total = sum([i for i in week_data if isinstance(i, int)])
         assert isinstance(sum_of_week_total, int)
 
     def test_getDictionaryOfCellsToCheck(self):
-        returned_dict = Leaderboard(level_10).getDictionaryOfCellsToCheck(
-            role_dictionary
-        )
+        returned_dict = Leaderboard(
+            level_10, role_dictionary
+        ).getDictionaryOfCellsToCheck()
         list_of_keys_in_dictionary = list(returned_dict.values())
         list_of_keys_in_data = list(
-            Leaderboard(level_10).getWeekTotalFromLevel10().index.values
+            Leaderboard(level_10, role_dictionary)
+            .getWeekTotalFromLevel10()
+            .index.values
         )
         flattened_dictionary = [
             item for sublist in list_of_keys_in_dictionary for item in sublist
@@ -148,14 +157,18 @@ class TestLeaderboard:
         assert all(elem in list_of_keys_in_data for elem in flattened_dictionary)
 
     def test_getValueForEachTeamMemberInTheirRole(self):
-        df = Leaderboard(level_10).getValueForEachTeamMemberInTheirRole()
+        df = Leaderboard(
+            level_10, role_dictionary
+        ).getValueForEachTeamMemberInTheirRole()
         frame_columns = list(df.columns)
         role_columns = list(role_dictionary.keys())
         assert role_columns == frame_columns
 
     def test_getSortedTCandSSNumbersForTeamMember(self):
-        df = Leaderboard(level_10).getSortedTCandSSNumbersForTeamMember()
-        basic_df = Leaderboard(level_10).getWeekTotalFromLevel10()
+        df = Leaderboard(
+            level_10, role_dictionary
+        ).getSortedTCandSSNumbersForTeamMember()
+        basic_df = Leaderboard(level_10, role_dictionary).getWeekTotalFromLevel10()
 
         girls_ss_sorted = int(df.loc["Girls SS"]["Pod Leads"])
         isela_ss_sorted = int(df.loc["Isela SS"]["Snr Specialists"])
@@ -170,14 +183,6 @@ class TestLeaderboard:
         amanda_result = amanda_tc_basic == amanda_tc_sorted
 
         assert all([girls_result, isela_result, amanda_result])
-
-
-url = "https://api.oncehub.com/v2/bookings?expand=booking_page&limit=100"
-headers = {
-    "Accept": "application/json",
-    "API-Key": "d7459f78d474f09276b4d708d2f2a161",
-}
-params = {"limit": 100}
 
 
 class TestScheduleOnce:

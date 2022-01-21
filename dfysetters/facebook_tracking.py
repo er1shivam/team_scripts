@@ -1,70 +1,66 @@
 import datetime
-import gspread
 import pandas as pd
 import numpy as np
 import requests
-
-gc = gspread.oauth()
-message_data_sheet = gc.open_by_url(
-    "https://docs.google.com/spreadsheets/d/1IfZlLzzwkC05I6fv-4ZRNFOc7ul7k0qIfeG-bk9j6AA/edit#gid=81738738"
-).sheet1
-
-specialist_name = "Tylee Evans Groll"
-
-level_10 = gc.open_by_url(
-    "https://docs.google.com/spreadsheets/d/1Y7cQYW1MJ1HstJVJEADVqKgbI-bOMyv74159jOJQtc4/edit#gid=1480274768"
-).sheet1
-
-role_dictionary = {
-    "Pod Leads": ["Girls", "No_name"],
-    "Snr Specialists": [
-        "Morgan",
-        "Isela",
-        "Caycee",
-        "Pat",
-        "Sean",
-        "Kayla",
-        "Molly N",
-    ],
-    "Jnr Specialists": ["Noela", "Molly C", "Zach"],
-    "Setters": [
-        "Alex",
-        "Amanda",
-        "Donnah",
-        "Liz",
-        "Jelyn",
-        "Monica",
-        "Rachel",
-        "Suleyma",
-    ],
-}
+from statistics import mean
 
 
-class FBTracking:
+class UnansweredMessages:
     def __init__(self, sheet, specialist):
+        """This class has fucntions that allow you to pass in a sheet and a desired name, and check how many unanswered messages that name has
+
+        Args:
+            sheet (gspread.models.Worksheet): This sheet should have a column with a list of messages sent, along with who sent them, the time it was sent and which overall conversation those messages belong to
+            specialist (string): This is the name of the specialist that runs that account and is responsible for those messages
+        """
         self.sheet = sheet
         self.specialist = specialist
 
     def getSheetValues(self):
+        """Takes the sheet passed into the class and gets the values from each cell
+
+        Returns:
+            list: Gives a list of dictionaries with each row of the sheet representing one item in the dictionary
+        """
         message_data = self.sheet.get_all_records()
         return message_data
 
     def emptyDictionary(self):
+        """Clears the dictionary of any empty values that came from the initial sheet
+
+        Returns:
+            list: Gives the same output of getSheetValues, but with clean data
+        """
         messages = self.getSheetValues()
         all_messages = [i for i in messages if (len(i["Conversation"]) > 2)]
         return all_messages
 
     def dictionaryToDataframe(self):
+        """Converts a list of dictionaries into a dataframe
+
+        Returns:
+            dataframe: Spreadsheet like dataframe of all valid values from the sheet initally passed into the class
+        """
         messages = self.emptyDictionary()
         dataframe = pd.DataFrame(messages)
         return dataframe
 
     def groupbyConversation(self):
+        """Groups the dataframe of messages by the conversation (the propsect's name) to get the most recent message sent by timestamp
+
+        Returns:
+            series: Gives a series of most recent timestamps with the corresponding conversation group
+        """
         df = self.dictionaryToDataframe()
         grouped_df = df.groupby(["Conversation"])["Timestamp (ms)"].max()
         return grouped_df
 
     def listLastSenders(self):
+        """Uses the most recent timestamps to find who sent the last message in a conversation
+
+        Returns:
+            list: Gives a list of prospect and specialist name based on who sent the last message
+        """
         df = self.dictionaryToDataframe()
         group = self.groupbyConversation()
         last_sender = []
@@ -73,35 +69,69 @@ class FBTracking:
         return last_sender
 
     def countUnanswered(self):
+        """Calculates how many messages were not replied to by the specialist (subtracts those that did reply from the total)
+
+        Returns:
+            int: Gives a single number as to how many messages were unanswered by the specialist
+        """
         senders = self.listLastSenders()
         return len(senders) - senders.count(self.specialist)
 
 
 class AveragePerConversation:
     def __init__(self, dataframe):
+        """This class has functions that allow you to pass in a sheet of messages with their corresponding timestamps and get the average time between each message in each conversation group
+
+        Args:
+            dataframe (dataframe): Requires a frame with Conversation and Timnestamp columns. Typical is a csv based on FB Downloaded Data pushed to a frame
+        """
         self.dataframe = dataframe
 
     def getProspectNamesInDictionary(self):
+        """Gets the name of every prospect in that dataframe and removes any duplicates
+
+        Returns:
+            set: Is a set of every prospect name inside of the given DataFrame
+        """
         df = self.dataframe
         name_list = sorted(set(list(df["Conversation"].values)))
         return name_list
 
     def groupDataframeByTimestamp(self):
+        """Groups all of the timestamps for each conversation
+
+        Returns:
+            series: Returns a series with each conversation and the corresponding timestamps for every message in that conversation
+        """
         timestamp_df = self.dataframe.groupby(["Conversation", "Timestamp (ms)"])[
             "Timestamp (ms)"
         ].unique()
         return timestamp_df
 
     def createDictionaryWithProspectNamesAndListOfReplyTimes(self):
+        """Generates dictionary with the propsect name and list of their reply times
+
+        Returns:
+            dict: key: Prospect Name, value: List of reply times
+        """
         name_list = self.getProspectNamesInDictionary()
+        names = [i for i in name_list if i]
         timestamp_df = self.groupDataframeByTimestamp()
         dictionary_of_reply_times = {}
-        for name in name_list:
+        for name in names:
             dictionary_of_reply_times[name] = timestamp_df[name].astype(int).tolist()
 
         return dictionary_of_reply_times
 
     def getAverageReplyTimePerConversation(self, name):
+        """This function is rarely called by itself. It is typically used with getAverageReplyTimeOfAllConversations in order to create a for loop for the 'name' argument
+
+        Args:
+            name (string): Is a name from the dictionary generated with list of names.
+
+        Returns:
+            nan / float: If there is more than one timestamp, returns float. If not, returns nan value
+        """
         reply_time_dict = self.createDictionaryWithProspectNamesAndListOfReplyTimes()
         reply_times = []
         for index, time in enumerate(reply_time_dict[name]):
@@ -111,9 +141,17 @@ class AveragePerConversation:
                 first_message_time = reply_time_dict[name][index]
                 next_message_time = reply_time_dict[name][index + 1]
                 reply_times.append(next_message_time - first_message_time)
-        return np.mean(reply_times)
+        if len(reply_times) < 1:
+            return np.nan
+        else:
+            return mean(reply_times)
 
     def getAverageReplyTimeOfAllConversations(self):
+        """Uses the getAverageReplyTimePerConversation to get an average of all conversations in the given sheet
+
+        Returns:
+            float: Returns average ms between each message
+        """
         reply_time_dict = self.createDictionaryWithProspectNamesAndListOfReplyTimes()
         list_of_averages = []
         for name in reply_time_dict:
@@ -121,15 +159,24 @@ class AveragePerConversation:
             list_of_averages.append(str(avg_time))
 
         cleaned_averages = [float(i) for i in list_of_averages if i != "nan"]
-        return np.mean(cleaned_averages)
+        return mean(cleaned_averages)
 
     def convertMstoMinutes(self, ms_measurement):
+        """Takes in ms and gives out that duration in minutes
+
+        Args:
+            ms_measurement (float): Can be any ms value, typically an epoch timestamp
+
+        Returns:
+            float: Returns minutes and seconds based on inputted ms value
+        """
         return round(ms_measurement / 60000, 2)
 
 
 class Leaderboard:
-    def __init__(self, sheet):
+    def __init__(self, sheet, role_dictionary):
         self.sheet = sheet
+        self.role_dictionary = role_dictionary
 
     def getWeekTotalFromLevel10(self):
         level_10_data = self.sheet.get_all_records()
@@ -140,11 +187,11 @@ class Leaderboard:
         )
         return level_10_df
 
-    def getDictionaryOfCellsToCheck(self, role_dictionary):
+    def getDictionaryOfCellsToCheck(self):
         cells_to_check = {}
         full_list = list(self.getWeekTotalFromLevel10().index.values)
 
-        for role, person_list in role_dictionary.items():
+        for role, person_list in self.role_dictionary.items():
             metrics = []
             for person in person_list:
                 for i in full_list:
@@ -156,7 +203,7 @@ class Leaderboard:
     def getValueForEachTeamMemberInTheirRole(self):
 
         df = self.getWeekTotalFromLevel10()
-        cells = self.getDictionaryOfCellsToCheck(role_dictionary)
+        cells = self.getDictionaryOfCellsToCheck()
 
         dep_pep = {}
         for role, person_list in cells.items():
@@ -172,7 +219,7 @@ class Leaderboard:
     def getSortedTCandSSNumbersForTeamMember(self):
 
         df = self.getValueForEachTeamMemberInTheirRole()
-        columns_for_frame = list(role_dictionary.keys())
+        columns_for_frame = list(self.role_dictionary.keys())
 
         list_of_df = []
         for col in columns_for_frame:
@@ -187,12 +234,6 @@ class Leaderboard:
         sorted_dataframe_of_TC_and_SS = pd.concat(list_of_df, axis=1)
 
         return sorted_dataframe_of_TC_and_SS
-
-
-headers = {
-    "Accept": "application/json",
-    "API-Key": "d7459f78d474f09276b4d708d2f2a161",
-}
 
 
 class ScheduleOnce:
@@ -240,7 +281,7 @@ class ScheduleOnce:
                     + "&limit=100&expand=booking_page"
                 )
                 new_bookings = ScheduleOnce(
-                    url, headers
+                    url, self.headers
                 ).getTCScheduledorTCBookedYesterday()
                 bookings.append(new_bookings)
             elif len(all_bookings) < 100:
