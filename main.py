@@ -24,9 +24,18 @@ role_dictionary = {
         "Pat",
         "Sean",
         "Kayla",
-        "Molly N",
     ],
-    "Jnr Specialists": ["Noela", "Molly C", "Zach"],
+    "Jnr Specialists": [
+        "Noela",
+        "Molly C",
+        "Zach",
+        "Julio",
+        "Ra'Saan",
+        "Daniel",
+        "Sonja",
+        "Molly N",
+        "Suleyma",
+    ],
     "Setters": [
         "Alex",
         "Amanda",
@@ -35,7 +44,6 @@ role_dictionary = {
         "Jelyn",
         "Monica",
         "Rachel",
-        "Suleyma",
     ],
 }
 
@@ -47,22 +55,7 @@ headers = {
 url = "https://api.oncehub.com/v2/bookings?expand=booking_page&limit=100"
 
 
-# leader = dfysetters.Leaderboard(
-#     level_10, role_dictionary
-# ).getSortedTCandSSNumbersForTeamMember()
-# print(leader)
+leader = dfy.Leaderboard(level_10, role_dictionary).getDictionaryOfCellsToCheck()
 
-# ua = dfy.FBTracking(message_data_sheet, specialist_name).countUnanswered()
-# print(ua)
-
-# df = dfy.ScheduleOnce(url, headers).getValueCountsFromSourceOfPageName()
-# print(df)
-
-# new_df = pd.DataFrame(message_data_sheet.get_all_records())
-
-# print(dfy.AveragePerConversation(new_df).getProspectNamesInDictionary())
-
-df = pd.DataFrame(message_data_sheet.get_all_records())
-avg = dfy.AveragePerConversation(df).getAverageReplyTimeOfAllConversations()
-mins = dfy.AveragePerConversation(df).convertMstoMinutes(avg)
-print(mins)
+print(type(leader))
+print(leader)

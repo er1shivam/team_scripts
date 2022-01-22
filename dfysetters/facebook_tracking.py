@@ -175,10 +175,21 @@ class AveragePerConversation:
 
 class Leaderboard:
     def __init__(self, sheet, role_dictionary):
+        """This class generates a leaderboard based on our team's metrics in any given week
+
+        Args:
+            sheet (gspread.models.Worksheet): This sheet should have a week total column to pull the relevant metrics from
+            role_dictionary (dict): key: Each Role (e.g Setter), value: List of team members in that role (e.g Amanda)
+        """
         self.sheet = sheet
         self.role_dictionary = role_dictionary
 
     def getWeekTotalFromLevel10(self):
+        """Pulls the data needed for analysis from the whole sheet. This the total for the week along with the name of the person who achieved that total
+
+        Returns:
+            dataframe: 1 column dataframe with the index being the person who achieved the week total
+        """
         level_10_data = self.sheet.get_all_records()
         level_10_df = (
             pd.DataFrame(level_10_data)[["Metric Type", "Week Total"]]
@@ -188,6 +199,11 @@ class Leaderboard:
         return level_10_df
 
     def getDictionaryOfCellsToCheck(self):
+        """Checks all of the names in role dictionary and gives every metric that has their name in the given sheet
+
+        Returns:
+            dict: key: Role of person, value: List of metrics in that role
+        """
         cells_to_check = {}
         full_list = list(self.getWeekTotalFromLevel10().index.values)
 
@@ -201,7 +217,6 @@ class Leaderboard:
         return cells_to_check
 
     def getValueForEachTeamMemberInTheirRole(self):
-
         df = self.getWeekTotalFromLevel10()
         cells = self.getDictionaryOfCellsToCheck()
 
