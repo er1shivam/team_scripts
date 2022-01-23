@@ -1,61 +1,40 @@
 import dfysetters.facebook_tracking as dfy
-import gspread
+from constants import *
 import pandas as pd
-import numpy as np
-
-gc = gspread.oauth()
-
-message_data_sheet = gc.open_by_url(
-    "https://docs.google.com/spreadsheets/d/1IfZlLzzwkC05I6fv-4ZRNFOc7ul7k0qIfeG-bk9j6AA/edit#gid=81738738"
-).sheet1
-
-specialist_name = "Tylee Evans Groll"
-
-level_10 = gc.open_by_url(
-    "https://docs.google.com/spreadsheets/d/1Y7cQYW1MJ1HstJVJEADVqKgbI-bOMyv74159jOJQtc4/edit#gid=1480274768"
-).sheet1
-
-role_dictionary = {
-    "Pod Leads": ["Girls", "No_name"],
-    "Snr Specialists": [
-        "Morgan",
-        "Isela",
-        "Caycee",
-        "Pat",
-        "Sean",
-        "Kayla",
-    ],
-    "Jnr Specialists": [
-        "Noela",
-        "Molly C",
-        "Zach",
-        "Julio",
-        "Ra'Saan",
-        "Daniel",
-        "Sonja",
-        "Molly N",
-        "Suleyma",
-    ],
-    "Setters": [
-        "Alex",
-        "Amanda",
-        "Donnah",
-        "Liz",
-        "Jelyn",
-        "Monica",
-        "Rachel",
-    ],
-}
-
-headers = {
-    "Accept": "application/json",
-    "API-Key": "d7459f78d474f09276b4d708d2f2a161",
-}
-
-url = "https://api.oncehub.com/v2/bookings?expand=booking_page&limit=100"
 
 
-leader = dfy.Leaderboard(level_10, role_dictionary).getDictionaryOfCellsToCheck()
+class RoleDict:
+    def __init__(self, department, name) -> None:
+        self.department = department
+        self.name = name
 
-print(type(leader))
-print(leader)
+    def getDictInfo(self):
+        return dict(self)
+
+
+jack = RoleDict("Pod Leads", "No_name")
+tylee = RoleDict("Pod Leads", "Girls")
+morgan = RoleDict("Snr Specialists", "Morgan")
+isela = RoleDict("Snr Specialists", "Isela")
+caycee = RoleDict("Snr Specialists", "Caycee")
+pat = RoleDict("Snr Specialists", "Pat")
+sean = RoleDict("Snr Specialists", "Sean")
+kayla = RoleDict("Snr Specialists", "Kayla")
+noela = RoleDict("Jnr Specialists", "Noela")
+molly_c = RoleDict("Jnr Specialists", "Molly C")
+zach = RoleDict("Jnr Specialists", "Zach")
+julio = RoleDict("Jnr Specialists", "Julio")
+ra_saan = RoleDict("Jnr Specialists", "Ra'Saan")
+daniel = RoleDict("Jnr Specialists", "Daniel")
+sonja = RoleDict("Jnr Specialists", "Sonja")
+molly_n = RoleDict("Jnr Specialists", "Molly N")
+suleyma = RoleDict("Setter", "Suleyma")
+alex = RoleDict("Setter", "Alex")
+amanda = RoleDict("Setter", "Amanda")
+donnah = RoleDict("Setter", "Donnah")
+liz = RoleDict("Setter", "Liz")
+jelyn = RoleDict("Setter", "Jelyn")
+monica = RoleDict("Setter", "Monica")
+rachel = RoleDict("Setter", "Rachel")
+
+print(jack.department)

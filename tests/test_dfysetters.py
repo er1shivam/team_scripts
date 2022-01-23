@@ -1,5 +1,5 @@
+import imp
 import pytest
-import gspread
 import numpy as np
 import pandas as pd
 import datetime
@@ -7,59 +7,18 @@ from dfysetters.facebook_tracking import AveragePerConversation
 from dfysetters.facebook_tracking import UnansweredMessages
 from dfysetters.facebook_tracking import ScheduleOnce
 from dfysetters.facebook_tracking import Leaderboard
-
-
-gc = gspread.oauth()
-message_data_sheet = gc.open_by_url(
-    "https://docs.google.com/spreadsheets/d/10t3QySrlJ207MidVHS1Yh_9BmhGFSmfmasQu_qcCdtU/edit#gid=2050205042"
-).sheet1
-specialist_name = "Tylee Evans Groll"
-
-url = "https://api.oncehub.com/v2/bookings?expand=booking_page&limit=100"
-headers = {
-    "Accept": "application/json",
-    "API-Key": "d7459f78d474f09276b4d708d2f2a161",
-}
-params = {"limit": 100}
-
-level_10 = gc.open_by_url(
-    "https://docs.google.com/spreadsheets/d/1Y7cQYW1MJ1HstJVJEADVqKgbI-bOMyv74159jOJQtc4/edit#gid=1480274768"
-).sheet1
-
-role_dictionary = {
-    "Pod Leads": ["Girls", "No_name"],
-    "Snr Specialists": [
-        "Morgan",
-        "Isela",
-        "Caycee",
-        "Pat",
-        "Sean",
-        "Kayla",
-        "Molly N",
-    ],
-    "Jnr Specialists": ["Noela", "Molly C", "Zach"],
-    "Setters": [
-        "Alex",
-        "Amanda",
-        "Donnah",
-        "Liz",
-        "Jelyn",
-        "Monica",
-        "Rachel",
-        "Suleyma",
-    ],
-}
+from constants import *
 
 
 @pytest.fixture()
 def tracking():
-    tracking = UnansweredMessages(message_data_sheet, specialist_name)
+    tracking = UnansweredMessages(MESSAGE_DATA_SHEET, SPECIALIST_NAME)
     return tracking
 
 
 @pytest.fixture()
 def averages():
-    df = UnansweredMessages(message_data_sheet, specialist_name).dictionaryToDataframe()
+    df = UnansweredMessages(MESSAGE_DATA_SHEET, SPECIALIST_NAME).dictionaryToDataframe()
     averages = AveragePerConversation(df)
     return averages
 
@@ -89,7 +48,7 @@ class TestFBTracking:
 
     def test_returnSenderOfHighestTimestamp(self, tracking):
         last_sender_list = tracking.listLastSenders()
-        assert specialist_name in last_sender_list
+        assert SPECIALIST_NAME in last_sender_list
 
     def test_countingHowManyUnanswered(self, tracking):
         unanswered = tracking.countUnanswered()
@@ -119,10 +78,12 @@ class TestAveragePerConversation:
         assert first_name in dictionary_created
 
     def test_getAverageReplyTimePerConversation(self, averages):
-        reply_time_avg = averages.getAverageReplyTimePerConversation(
-            "Abdulrahman Muhammad"
+        d = averages.createDictionaryWithProspectNamesAndListOfReplyTimes()
+        name = list(d)[0]
+        reply_time_avg = averages.getAverageReplyTimePerConversation(name)
+        assert (86400000 > reply_time_avg > 1) or isinstance(
+            reply_time_avg, type(np.nan)
         )
-        assert 86400000 > reply_time_avg > 1
 
     def test_getAverageReplyTimeOfAllConversations(self, averages):
         total_average = averages.getAverageReplyTimeOfAllConversations()
@@ -136,18 +97,18 @@ class TestAveragePerConversation:
 
 class TestLeaderboard:
     def test_getWeekTotalromLevel10(self):
-        data = Leaderboard(level_10, role_dictionary).getWeekTotalFromLevel10()
+        data = Leaderboard(LEVEL_10_SHEET, ROLE_DICTIONARY).getWeekTotalFromLevel10()
         week_data = data["Week Total"].values
         sum_of_week_total = sum([i for i in week_data if isinstance(i, int)])
         assert isinstance(sum_of_week_total, int)
 
     def test_getDictionaryOfCellsToCheck(self):
         returned_dict = Leaderboard(
-            level_10, role_dictionary
+            LEVEL_10_SHEET, ROLE_DICTIONARY
         ).getDictionaryOfCellsToCheck()
         list_of_keys_in_dictionary = list(returned_dict.values())
         list_of_keys_in_data = list(
-            Leaderboard(level_10, role_dictionary)
+            Leaderboard(LEVEL_10_SHEET, ROLE_DICTIONARY)
             .getWeekTotalFromLevel10()
             .index.values
         )
@@ -158,17 +119,19 @@ class TestLeaderboard:
 
     def test_getValueForEachTeamMemberInTheirRole(self):
         df = Leaderboard(
-            level_10, role_dictionary
+            LEVEL_10_SHEET, ROLE_DICTIONARY
         ).getValueForEachTeamMemberInTheirRole()
         frame_columns = list(df.columns)
-        role_columns = list(role_dictionary.keys())
+        role_columns = list(ROLE_DICTIONARY.keys())
         assert role_columns == frame_columns
 
     def test_getSortedTCandSSNumbersForTeamMember(self):
         df = Leaderboard(
-            level_10, role_dictionary
+            LEVEL_10_SHEET, ROLE_DICTIONARY
         ).getSortedTCandSSNumbersForTeamMember()
-        basic_df = Leaderboard(level_10, role_dictionary).getWeekTotalFromLevel10()
+        basic_df = Leaderboard(
+            LEVEL_10_SHEET, ROLE_DICTIONARY
+        ).getWeekTotalFromLevel10()
 
         girls_ss_sorted = int(df.loc["Girls SS"]["Pod Leads"])
         isela_ss_sorted = int(df.loc["Isela SS"]["Snr Specialists"])
@@ -187,11 +150,15 @@ class TestLeaderboard:
 
 class TestScheduleOnce:
     def test_getFullBookingList(self):
-        booking_list = ScheduleOnce(url, headers).getFullBookingList()
+        booking_list = ScheduleOnce(
+            SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
+        ).getFullBookingList()
         assert len(booking_list) == 100
 
     def test_getTCScheduledorTCBookedYesterday(self):
-        booking_list = ScheduleOnce(url, headers).getTCScheduledorTCBookedYesterday()
+        booking_list = ScheduleOnce(
+            SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
+        ).getTCScheduledorTCBookedYesterday()
 
         yesterday = str(datetime.date.today() - datetime.timedelta(1))
 
@@ -209,13 +176,17 @@ class TestScheduleOnce:
         assert create == yesterday or starting == yesterday
 
     def test_getBookingDataFromListOfBookings(self):
-        booking_data = ScheduleOnce(url, headers).getBookingDataFromListOfBookings()
+        booking_data = ScheduleOnce(
+            SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
+        ).getBookingDataFromListOfBookings()
         assert not any(
             d["Page Name"] == "Big Rig Freight Services" for d in booking_data
         )
 
     def test_getValueCountsFromSourceOfPageName(self):
-        booking_data = ScheduleOnce(url, headers).getValueCountsFromSourceOfPageName()
+        booking_data = ScheduleOnce(
+            SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
+        ).getValueCountsFromSourceOfPageName()
         indexes = list(booking_data.index)
         check = [item for item in indexes if item[0] == "Big Freight Services"]
         check2 = [item for item in indexes if item[1] == "Outbound Dial"]

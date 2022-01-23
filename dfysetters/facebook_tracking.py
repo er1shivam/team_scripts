@@ -1,3 +1,5 @@
+"""This module houses all of the functions needed to pull data from a CSV (or Google Sheet) with Facebook message data, and pull the necessary metrics from it """
+
 import datetime
 import pandas as pd
 import numpy as np
@@ -142,7 +144,7 @@ class AveragePerConversation:
                 next_message_time = reply_time_dict[name][index + 1]
                 reply_times.append(next_message_time - first_message_time)
         if len(reply_times) < 1:
-            return np.nan
+            return np.nan  # Used for calculating averages in later step
         else:
             return mean(reply_times)
 
@@ -170,7 +172,7 @@ class AveragePerConversation:
         Returns:
             float: Returns minutes and seconds based on inputted ms value
         """
-        return round(ms_measurement / 60000, 2)
+        return round(ms_measurement / 60000, 2)  # 60000 due to that many in minutes
 
 
 class Leaderboard:
@@ -210,17 +212,22 @@ class Leaderboard:
         for role, person_list in self.role_dictionary.items():
             metrics = []
             for person in person_list:
-                for i in full_list:
-                    if person in i:
-                        metrics.append(i)
+                for metric in full_list:
+                    if person in metric:
+                        metrics.append(metric)
                         cells_to_check[role] = metrics
         return cells_to_check
 
     def getValueForEachTeamMemberInTheirRole(self):
+        """Creates a dataframe with all team members and all metrics that are relevant to their role
+
+        Returns:
+            dataframe: dataframe with columns based on role and index on each individual metric. NOTE: There are a lot of NaN values
+        """
         df = self.getWeekTotalFromLevel10()
         cells = self.getDictionaryOfCellsToCheck()
 
-        dep_pep = {}
+        dep_pep = {}  # Department_Person, which are the Key, Value
         for role, person_list in cells.items():
             values_per_department = {}
             for person in person_list:
@@ -232,6 +239,11 @@ class Leaderboard:
         return dataframe_with_score_and_role
 
     def getSortedTCandSSNumbersForTeamMember(self):
+        """Sorts the dataframe generated in getValueForEachTeamMemberInTheirRole to only return the TC and SS numbers in descending order
+
+        Returns:
+            dataframe: dataframe with columns based on role and index on each individual metric. Each column is sorted. NOTE: There are a lot of NaN values
+        """
 
         df = self.getValueForEachTeamMemberInTheirRole()
         columns_for_frame = list(self.role_dictionary.keys())
@@ -253,17 +265,35 @@ class Leaderboard:
 
 class ScheduleOnce:
     def __init__(self, url, headers):
+        """This class calls the Schedule Once API to track TC Scheduled and TC Booked
+
+        Args:
+            url (string): API url for Schedule Once, ideally with expand booking pages and limits included
+            headers (dict): dictionary with at least Accept and API Key
+        """
         self.url = url
         self.headers = headers
 
     def getFullBookingList(self):
+        """Creates a long list of the data pushed when the class is called from the given url
+
+        Returns:
+            list: list of dictionaries where each dictionary has the data from an individual booking
+        """
         response = requests.request("GET", url=self.url, headers=self.headers)
         booking_list = response.json()["data"]
 
         return booking_list
 
     def getTCScheduledorTCBookedYesterday(self):
-        from_date = str(datetime.date.today() - datetime.timedelta(1))
+        """Calls the API to get bookings from the previous day, which allows us to track TC Booked and Scheduled
+
+        Returns:
+            list: Gives list of bookings that are either created or started the previous day
+        """
+        from_date = str(
+            datetime.date.today() - datetime.timedelta(1)
+        )  # Gives yesterday's date
         to_date = str(datetime.date.today())
         which_params = input(
             "Do you want TC Scheduled (s) or TC Booked (b). Please enter exactly s or b: "
@@ -284,6 +314,11 @@ class ScheduleOnce:
         return booking_list
 
     def appendMultipleAPIPagesOfTCScheduledorBooked(self):
+        """Paginates through all of the bookings from the previous day that were either Scheduled or Booked in order to get all of the data
+
+        Returns:
+            list: Long list of bookings from the previous day that were either created or started, depending on the given input
+        """
         bookings = []
 
         while True:
@@ -300,14 +335,21 @@ class ScheduleOnce:
                 ).getTCScheduledorTCBookedYesterday()
                 bookings.append(new_bookings)
             elif len(all_bookings) < 100:
+                bookings.append(all_bookings)
                 break
 
-            bookings.append(all_bookings)
-            new_bookings = [item for sublist in bookings for item in sublist]
+        new_bookings = [
+            item for sublist in bookings for item in sublist
+        ]  # Flattens list of lists
 
-            return new_bookings
+        return new_bookings
 
     def getBookingDataFromListOfBookings(self):
+        """Takes the booking data in it's normal form and extracts the data needed for a value counts dataframe
+
+        Returns:
+            list: List of dictionaries that house the Name, Booking Page and Source of every booking
+        """
         bookings = self.appendMultipleAPIPagesOfTCScheduledorBooked()
         booking_data = []
 
@@ -315,7 +357,7 @@ class ScheduleOnce:
             page_source_name = {}
             page_source_name["Name"] = booking["form_submission"]["name"]
             page_source_name["Page Name"] = booking["booking_page"]["label"]
-            try:
+            try:  # If booked on certain link, there is not a custom field, though we know what the source is
                 page_source_name["Source"] = booking["form_submission"][
                     "custom_fields"
                 ][0]["value"]
@@ -326,6 +368,11 @@ class ScheduleOnce:
         return booking_data
 
     def getValueCountsFromSourceOfPageName(self):
+        """Creates the value counts based on the source of each booking for each client (page name)
+
+        Returns:
+            groupby.dataframe: MultIndex groupby frame with Booking Page and Source as the two index's and value counts as the data
+        """
         booking_data = self.getBookingDataFromListOfBookings()
         df = pd.DataFrame(booking_data)
         grouped_by_source = df.groupby("Page Name")["Source"].value_counts()
