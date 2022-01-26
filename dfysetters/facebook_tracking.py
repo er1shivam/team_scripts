@@ -6,7 +6,7 @@ import numpy as np
 import requests
 from statistics import mean
 
-
+# TODO : Use rulers, and refactor code and comments
 class UnansweredMessages:
     def __init__(self, sheet, specialist):
         """This class has fucntions that allow you to pass in a sheet and a desired name, and check how many unanswered messages that name has

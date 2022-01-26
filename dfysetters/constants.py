@@ -1,3 +1,5 @@
+# TODO : MOVE THIS IN dfysetters/
+
 import gspread
 
 gc = gspread.oauth(
