@@ -1,4 +1,5 @@
-"""This module houses all of the functions needed to pull data from a CSV (or Google Sheet) with Facebook message data, and pull the necessary metrics from it """
+"""This module houses all of the functions needed to pull data from a CSV (or Google Sheet) with 
+Facebook message data, and pull the necessary metrics from it """
 
 import datetime
 import pandas as pd
@@ -9,7 +10,8 @@ from statistics import mean
 
 class UnansweredMessages:
     def __init__(self, sheet, specialist):
-        """This class has fucntions that allow you to pass in a sheet and a desired name, and check how many unanswered messages that name has
+        """This class has fucntions that allow you to pass in a sheet and a desired name, and check
+         how many unanswered messages that name has
 
         Args:
             sheet (gspread.models.Worksheet): This sheet should have a column with a list of messages sent, along with who sent them, the time it was sent and which overall conversation those messages belong to
