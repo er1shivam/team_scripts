@@ -7,7 +7,7 @@ from dfysetters.facebook_tracking import AveragePerConversation
 from dfysetters.facebook_tracking import UnansweredMessages
 from dfysetters.facebook_tracking import ScheduleOnce
 from dfysetters.facebook_tracking import Leaderboard
-from constants import *
+from dfysetters.constants import *
 
 
 @pytest.fixture()
@@ -18,7 +18,9 @@ def tracking():
 
 @pytest.fixture()
 def averages():
-    df = UnansweredMessages(MESSAGE_DATA_SHEET, SPECIALIST_NAME).dictionaryToDataframe()
+    df = UnansweredMessages(
+        MESSAGE_DATA_SHEET, SPECIALIST_NAME
+    ).dictionaryToDataframe()
     averages = AveragePerConversation(df)
     return averages
 
@@ -97,7 +99,9 @@ class TestAveragePerConversation:
 
 class TestLeaderboard:
     def test_getWeekTotalromLevel10(self):
-        data = Leaderboard(LEVEL_10_SHEET, ROLE_DICTIONARY).getWeekTotalFromLevel10()
+        data = Leaderboard(
+            LEVEL_10_SHEET, ROLE_DICTIONARY
+        ).getWeekTotalFromLevel10()
         week_data = data["Week Total"].values
         sum_of_week_total = sum([i for i in week_data if isinstance(i, int)])
         assert isinstance(sum_of_week_total, int)
@@ -115,7 +119,9 @@ class TestLeaderboard:
         flattened_dictionary = [
             item for sublist in list_of_keys_in_dictionary for item in sublist
         ]
-        assert all(elem in list_of_keys_in_data for elem in flattened_dictionary)
+        assert all(
+            elem in list_of_keys_in_data for elem in flattened_dictionary
+        )
 
     def test_getValueForEachTeamMemberInTheirRole(self):
         df = Leaderboard(

@@ -1,3 +1,5 @@
 .pytest_cache
-/src/main.py
+main.py
 /credentials
+__pycache__
+/dist

@@ -1,6 +1,7 @@
 # TODO : MOVE THIS IN dfysetters/
 
 import gspread
+from dfysetters.roles import Roles
 
 gc = gspread.oauth(
     credentials_filename="/Users/louisrae/Documents/team_scripts/credentials/credentials.json",
@@ -22,37 +23,9 @@ SCHEDULE_ONCE_HEADERS = {
     "API-Key": "d7459f78d474f09276b4d708d2f2a161",
 }
 
-SCHEDULE_ONCE_URL = "https://api.oncehub.com/v2/bookings?expand=booking_page&limit=100"
+SCHEDULE_ONCE_URL = (
+    "https://api.oncehub.com/v2/bookings?expand=booking_page&limit=100"
+)
 
-
-ROLE_DICTIONARY = {
-    "Pod Leads": ["Girls", "No_name"],
-    "Snr Specialists": [
-        "Morgan",
-        "Isela",
-        "Caycee",
-        "Pat",
-        "Sean",
-        "Kayla",
-    ],
-    "Jnr Specialists": [
-        "Noela",
-        "Molly C",
-        "Zach",
-        "Julio",
-        "Ra'Saan",
-        "Daniel",
-        "Sonja",
-        "Molly N",
-        "Suleyma",
-    ],
-    "Setters": [
-        "Alex",
-        "Amanda",
-        "Donnah",
-        "Liz",
-        "Jelyn",
-        "Monica",
-        "Rachel",
-    ],
-}
+Roles().register_all_members()
+ROLE_DICTIONARY = Roles().all_roles
