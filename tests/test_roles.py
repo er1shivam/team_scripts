@@ -1,5 +1,5 @@
-from dfysetters.roles import Person
-from dfysetters.roles import Roles
+from src.roles import Person
+from src.roles import Roles
 
 
 def test_canCreatePersonwithNameandRole():

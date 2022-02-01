@@ -3,11 +3,11 @@ import pytest
 import numpy as np
 import pandas as pd
 import datetime
-from dfysetters.facebook_tracking import AveragePerConversation
-from dfysetters.facebook_tracking import UnansweredMessages
-from dfysetters.facebook_tracking import ScheduleOnce
-from dfysetters.facebook_tracking import Leaderboard
-from dfysetters.constants import *
+from src.facebook_tracking import AveragePerConversation
+from src.facebook_tracking import UnansweredMessages
+from src.facebook_tracking import ScheduleOnce
+from src.facebook_tracking import Leaderboard
+from src.constants import *
 
 
 @pytest.fixture()

@@ -1,17 +1,11 @@
-import dfysetters.facebook_tracking as dfy
-from dfysetters.constants import *
+import sys
 
+sys.path.insert(0, "/Users/louisrae/Documents/dev/dfy_setters/src")
 
-df = dfy.ScheduleOnce(
-    SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
-).getValueCountsFromSourceOfPageName()
+from src.weekly_totals import SSBTotals
+from src.constants import *
 
-booking_data = dfy.ScheduleOnce(
-    SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
-).getBookingDataFromListOfBookings()
-
-for i in booking_data:
-    if i["Page Name"] == "The Sponsorship Collective":
-        print(i)
-
-print(df)
+func = SSBTotals(MTD_START_DATE, MTD_END_DATE, WTD_START_DATE, WTD_END_DATE)
+week, month = func.getWTDandMTDTotalsDataframe()
+print(week)
+print(month)

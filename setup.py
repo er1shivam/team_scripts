@@ -3,13 +3,13 @@ from distutils.core import setup
 setup(
     name="dfysetters",
     packages=["dfysetters"],
-    version="0.1.4.9",
+    version="0.1.4.10",
     license="MIT",
     description="This is a library to be used with the dfysetters.com team. It allows us to analyse our messages and extract data from them",
     author="Louis-Rae",
     author_email="louisrae@settersandspecialists.com",
     url="https://github.com/louisrae",
-    download_url="https://github.com/louisrae/team_scripts/archive/refs/tags/v0.2.7alpha.tar.gz",
+    download_url="https://github.com/louisrae/team_scripts/archive/refs/tags/v0.2.8alpha.tar.gz",
     keywords=[
         "data",
         "tracking",

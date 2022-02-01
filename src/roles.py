@@ -91,7 +91,7 @@ class Roles:
             dataframe: Returns two columns, name and role
         """
         df = pd.read_csv(
-            "/Users/louisrae/Documents/team_scripts/dfysetters/db_people.csv"
+            "/Users/louisrae/Documents/dev/dfy_setters/src/db_people.csv"
         )
         return df
 

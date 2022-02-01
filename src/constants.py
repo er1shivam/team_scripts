@@ -1,11 +1,10 @@
-# TODO : MOVE THIS IN dfysetters/
-
 import gspread
-from dfysetters.roles import Roles
+from src.roles import Roles
+from datetime import date
 
 gc = gspread.oauth(
-    credentials_filename="/Users/louisrae/Documents/team_scripts/credentials/credentials.json",
-    authorized_user_filename="/Users/louisrae/Documents/team_scripts/credentials/authorized_user.json",
+    credentials_filename="/Users/louisrae/Documents/dev/dfy_setters/credentials/credentials.json",
+    authorized_user_filename="/Users/louisrae/Documents/dev/dfy_setters/credentials/authorized_user.json",
 )
 
 LEVEL_10_SHEET = gc.open_by_url(
@@ -29,3 +28,17 @@ SCHEDULE_ONCE_URL = (
 
 Roles().register_all_members()
 ROLE_DICTIONARY = Roles().all_roles
+
+
+# Start of constants for wtd and mtd
+
+MTD_START_DATE = date(2022, 2, 1)
+MTD_END_DATE = date.today()
+WTD_START_DATE = date(2022, 1, 31)
+WTD_END_DATE = date.today()
+
+DAILY_KPIS_WORKBOOK = gc.open_by_url(
+    "https://docs.google.com/spreadsheets/d/18AgIMFyPCOxHYQXRYJowihJd_i2kRMB9pzB5jdA3ZVc/edit#gid=1070219116"
+)
+
+TESTING_SHEET = DAILY_KPIS_WORKBOOK.sheet1
