@@ -6,6 +6,7 @@ import time
 import pandas as pd
 from constants import *
 import logging
+import gspread
 
 logging.basicConfig(
     filename="/Users/louisrae/Documents/dev/dfy_setters/logs/weekly_totals.log",
@@ -136,8 +137,14 @@ class SSBTotals:
         """
         full_week_totals = {}
         full_month_totals = {}
+        gc = gspread.oauth(
+            credentials_filename=GSPREAD_CREDENTIALS,
+            authorized_user_filename=AUTHORIZED_USER,
+        )
 
-        for sheet in DAILY_KPIS_WORKBOOK:
+        daily_kpis = gc.open_by_url(DAILY_KPIS_URL)
+
+        for sheet in daily_kpis:
             try:
                 full_week_totals.update(self.getWTDSSTotal(sheet))
                 time.sleep(3)

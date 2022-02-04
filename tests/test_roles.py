@@ -14,14 +14,14 @@ def test_canParseCSVwithRolesandPersonName():
 
 def test_singleMemberCanBeRegisteredToRoleDictionary():
     jack = Person("No_name", "Pod Leads")
-    Roles().register_member(jack)
-    assert "No_name" in Roles().all_roles["Pod Leads"]
+    Roles().registerMember(jack)
+    assert "No_name" in str(Roles().all_team_members_in_company)
 
 
 def test_singleMemberCanBeRegisteredToTeamList():
     jack = Person("No_name", "Pod Leads")
-    registered = Roles().register_member(jack)
-    item_in_team_register = list(Roles().all_team)[0]
+    registered = Roles().registerMember(jack)
+    item_in_team_register = list(Roles().all_team_members_in_company)[0]
     assert isinstance(item_in_team_register, type(jack))
 
 
@@ -29,4 +29,6 @@ def test_canRegisterAllMembers():
     new_roles = Roles()
     new_roles.register_all_members()
     df = Roles().parse_csv_of_roles()
-    assert len(new_roles.all_team) == df["Role"].count()
+    assert len(new_roles.all_team_members_in_company) == (
+        df["Role"].count() + 1
+    )

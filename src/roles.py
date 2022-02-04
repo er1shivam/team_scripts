@@ -40,49 +40,16 @@ class Roles:
     """Registers and assigns Person object based on their role to the correct
     ist in role_dictionary"""
 
-    all_roles = {  # Uses a set to avoid duplicates if registering members
-        # with multiple calls
-        "Pod Leads": set(),
-        "Snr Specialists": set(),
-        "Jnr Specialists": set(),
-        "Setters": set(),
-    }
-    all_team = set()
+    all_team_members_in_company = set()
 
     def __init__(self) -> None:
         pass
 
-    def get_setters(self):
-        """Shows the name of those team members in the setter role
+    def getAllMembers(self):
+        return self.all_members
 
-        Returns:
-            list: Returns list of names of those in setter role
-        """
-        return self.all_roles["Setters"]
-
-    def get_jnr_specialists(self):
-        """Shows the name of those team members in the jnr specialist role
-
-        Returns:
-            list: Returns list of names of those in jnr specialist role
-        """
-        return self.all_roles["Jnr Specialists"]
-
-    def get_snr_specialists(self):
-        """Shows the name of those team members in the snr specialist role
-
-        Returns:
-            list: Returns list of names of those in snr specialist role
-        """
-        return self.all_roles["Snr Specialists"]
-
-    def get_pod_leads(self):
-        """Shows the name of those team members in the Pod Lead role
-
-        Returns:
-            list: Returns list of names of those in Pod Lead role
-        """
-        return self.all_roles["Pod Leads"]
+    def listAllTeamMembersInCompany(self):
+        return self.all_team_members_in_company
 
     def parse_csv_of_roles(self):
         """Uses csv as a database to pull through data for each team member
@@ -95,15 +62,14 @@ class Roles:
         )
         return df
 
-    def register_member(self, team_member: Person):
+    def registerMember(self, team_member: Person):
         """Takes the Person object and assigns the attributes to the
         role dictionary and object to a list of all team_members
 
         Args:
             team_member (Person): Takes in Person object, defined above
         """
-        self.all_roles[team_member.role].add(team_member.name)
-        self.all_team.add(team_member)
+        self.all_team_members_in_company.add(team_member)
 
     def register_all_members(self):
         """Registers every member into dictionary and full list who
@@ -111,4 +77,44 @@ class Roles:
         """
         for name, role in self.parse_csv_of_roles().values:
             person = Person(name, role)
-            self.register_member(person)
+            if role == "Pod Lead":
+                PodLead().registerMember(person)
+            elif role == "Snr Specialist":
+                SnrSpecialist().registerMember(person)
+            elif role == "Jnr Specialist":
+                JnrSpecialist().registerMember(person)
+            elif role == "Setter":
+                Setter().registerMember(person)
+            self.all_team_members_in_company.add(person)
+
+
+class SnrSpecialist(Roles):
+
+    all_members = set()
+
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class JnrSpecialist(Roles):
+
+    all_members = set()
+
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class PodLead(Roles):
+
+    all_members = set()
+
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class Setter(Roles):
+
+    all_members = set()
+
+    def __init__(self) -> None:
+        super().__init__()

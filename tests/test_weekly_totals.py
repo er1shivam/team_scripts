@@ -1,27 +1,29 @@
 import sys
 
 sys.path.insert(0, "/Users/louisrae/Documents/dev/dfy_setters/src")
-
 import pandas
 from src.weekly_totals import SSBTotals
 from src.constants import *
 import pytest
+import gspread
+from datetime import date
 
 
-WTD_DATE_LIST = SSBTotals(
-    MTD_START_DATE, MTD_END_DATE, WTD_START_DATE, WTD_END_DATE
-).getWTDDateList()
+gc = gspread.oauth(
+    credentials_filename=GSPREAD_CREDENTIALS,
+    authorized_user_filename=AUTHORIZED_USER,
+)
 
-MTD_DATE_LIST = SSBTotals(
-    date(2022, 1, 1), MTD_END_DATE, WTD_START_DATE, WTD_END_DATE
-).getMTDDateList()
+testing_sheet = gc.open_by_url(DAILY_KPIS_URL).sheet1
+mtd_start = date(2022, 2, 1)
+mtd_end = date.today()
+wtd_start = date(2022, 1, 31)
+wtd_end = date.today()
 
 
 @pytest.fixture
 def ss_call():
-    ss_call = SSBTotals(
-        MTD_START_DATE, MTD_END_DATE, WTD_START_DATE, WTD_END_DATE
-    )
+    ss_call = SSBTotals(mtd_start, mtd_end, wtd_start, wtd_end)
     return ss_call
 
 
@@ -38,19 +40,19 @@ def test_canMTDListOfDaysIsListAndContainsDates(ss_call):
 
 
 def test_canConvertColumnToDate(ss_call):
-    df = ss_call.changeDateColumnToDatetime(TESTING_SHEET)
+    df = ss_call.changeDateColumnToDatetime(testing_sheet)
     date_column = df["Date"]
     assert isinstance(date_column.iloc[1], pandas.Timestamp)
 
 
 def test_getMTDSSTotal(ss_call):
-    wtd = ss_call.getWTDSSTotal(TESTING_SHEET)
+    wtd = ss_call.getWTDSSTotal(testing_sheet)
     ss_num = list(wtd.values())[0]
     assert isinstance(ss_num, int) and (150 > ss_num >= 0)
 
 
 def test_getWTDSSTotal(ss_call):
-    mtd = ss_call.getMTDSSTotal(TESTING_SHEET)
+    mtd = ss_call.getMTDSSTotal(testing_sheet)
     ss_num = list(mtd.values())[0]
     assert isinstance(ss_num, int) and (150 > ss_num >= 0)
 
