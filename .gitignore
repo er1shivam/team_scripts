@@ -1,4 +1,4 @@
 .pytest_cache
-/credentials
+credentials.zip
 __pycache__
 /dist
