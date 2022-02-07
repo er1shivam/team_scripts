@@ -1,0 +1,4 @@
+.pytest_cache
+credentials.zip
+__pycache__
+/dist
