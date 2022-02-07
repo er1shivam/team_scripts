@@ -1,18 +1,32 @@
-import sys
+from src.facebook_tracking import Leaderboard
+from src.constants import *
+from src.roles import *
+from src.weekly_totals import *
+import gspread
 from datetime import date
 
-sys.path.insert(0, "/Users/louisrae/Documents/dev/dfy_setters/src")
+gc = gspread.oauth(
+    credentials_filename=GSPREAD_CREDENTIALS,
+    authorized_user_filename=AUTHORIZED_USER,
+)
 
-from src.weekly_totals import SSBTotals
-from src.constants import *
+level_10_sheet = gc.open_by_url(LEVEL_10_SHEET_URL).sheet1
+
+Roles().register_all_members()
+role_list = [PodLead(), SnrSpecialist(), JnrSpecialist(), Setter()]
+l = Leaderboard(level_10_sheet)
+df = l.getWeekTotalFromLevel10()
+vc = l.getSortedTCandSSNumbersForTeamMembers(role_list, df)
+print(vc)
 
 
 mtd_start = date(2022, 2, 1)
 mtd_end = date.today()
-wtd_start = date(2022, 1, 31)
+wtd_start = date(2022, 2, 7)
 wtd_end = date.today()
 
-func = SSBTotals(mtd_start, mtd_end, wtd_start, wtd_end)
-week, month = func.getWTDandMTDTotalsDataframe()
-print(week)
-print(month)
+df = SSBTotals(
+    mtd_start, mtd_end, wtd_start, wtd_end
+).getWTDandMTDTotalsDataframe()
+
+print(df)

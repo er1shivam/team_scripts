@@ -1,9 +1,8 @@
-GSPREAD_CREDENTIALS = (
-    "/Users/louisrae/Documents/dev/dfy_setters/credentials/credentials.json"
-)
-AUTHORIZED_USER = (
-    "/Users/louisrae/Documents/dev/dfy_setters/credentials/authorized_user.json"
-)
+import os
+
+
+GSPREAD_CREDENTIALS = f"/Users/{os.environ['USER']}/Documents/d4ysetters/credentials/credentials.json"
+AUTHORIZED_USER = f"/Users/{os.environ['USER']}/Documents/d4ysetters/credentials/authorized_user.json"
 
 LEVEL_10_SHEET_URL = "https://docs.google.com/spreadsheets/d/1Y7cQYW1MJ1HstJVJEADVqKgbI-bOMyv74159jOJQtc4/edit#gid=1480274768"
 

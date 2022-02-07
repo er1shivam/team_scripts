@@ -1,5 +1,8 @@
 """This module is used to get the WTD and MTD totals for all relevent clients to see where issues lay
 """
+import sys
+
+sys.path.insert(0, "/Users/louisrae/Documents/dev/dfy_setters/src")
 
 from datetime import timedelta
 import time

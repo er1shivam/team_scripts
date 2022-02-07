@@ -1,5 +1,4 @@
-from src.roles import Person
-from src.roles import Roles
+from src.roles import *
 
 
 def test_canCreatePersonwithNameandRole():

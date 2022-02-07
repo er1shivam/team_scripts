@@ -20,21 +20,6 @@ class Person:
         """
         return f"Person (Name: {self.name} - Role: {self.role})"
 
-    def __hash__(self):
-        """This allows multiple classes to be added to the set all_team in a
-        future function call
-
-        Returns:
-            hash: Hash of name and role of this instance
-        """
-        return hash((self.name, self.role))
-
-    def __eq__(self, other):
-        """Not fully sure why this works, but I will figure it out"""
-        if not isinstance(other, type(self)):
-            return NotImplemented
-        return self.name == other.name and self.role == other.role
-
 
 class Roles:
     """Registers and assigns Person object based on their role to the correct
@@ -69,7 +54,7 @@ class Roles:
         Args:
             team_member (Person): Takes in Person object, defined above
         """
-        self.all_team_members_in_company.add(team_member)
+        self.all_members.add(team_member)
 
     def register_all_members(self):
         """Registers every member into dictionary and full list who
@@ -94,6 +79,7 @@ class SnrSpecialist(Roles):
 
     def __init__(self) -> None:
         super().__init__()
+        self.title = "Snr Specialist"
 
 
 class JnrSpecialist(Roles):
@@ -102,6 +88,7 @@ class JnrSpecialist(Roles):
 
     def __init__(self) -> None:
         super().__init__()
+        self.title = "Jnr Specialist"
 
 
 class PodLead(Roles):
@@ -110,6 +97,7 @@ class PodLead(Roles):
 
     def __init__(self) -> None:
         super().__init__()
+        self.title = "Pod Lead"
 
 
 class Setter(Roles):
@@ -118,3 +106,10 @@ class Setter(Roles):
 
     def __init__(self) -> None:
         super().__init__()
+        self.title = "Setter"
+
+
+Roles().register_all_members()
+ls = Roles().all_team_members_in_company
+ds = SnrSpecialist().all_team_members_in_company
+print(ls == ds)
