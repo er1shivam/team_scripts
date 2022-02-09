@@ -20,3 +20,5 @@ SCHEDULE_ONCE_URL = (
 )
 
 DAILY_KPIS_URL = "https://docs.google.com/spreadsheets/d/18AgIMFyPCOxHYQXRYJowihJd_i2kRMB9pzB5jdA3ZVc/edit#gid=1070219116"
+
+PATH_TO_CSV = "/Users/louisrae/Documents/dev/dfy_setters/src/db_people.csv"

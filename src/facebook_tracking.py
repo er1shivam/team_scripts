@@ -61,7 +61,8 @@ class UnansweredMessages:
         for row in grouped_dataframe:
             last_message_time = regular_dataframe.loc[
                 regular_dataframe["Timestamp (ms)"] == row
-            ]["Sender"].values[0]
+            ]
+            last_message_time = last_message_time["Sender"].values[0]
             list_of_last_senders.append(last_message_time)
 
         last_sender_count = len(
@@ -207,7 +208,7 @@ class Leaderboard:
         """
         lofd = {}
         for role in role_list:
-            ls = role.getAllMembers()
+            ls = role.get_all_members()
             d = self.getValueForEachMemberInRole(ls, level_10_df)
             lofd[role.title] = dict(
                 sorted(d.items(), key=lambda item: item[1], reverse=True)

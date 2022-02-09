@@ -1,33 +1,46 @@
+import sys
+
+sys.path.insert(0, "/Users/louisrae/Documents/dev/dfy_setters")
+
 from src.roles import *
+import pytest
+import pandas as pd
+from src.constants import *
 
 
-def test_canCreatePersonwithNameandRole():
-    jack = Person("No_name", "Pod Lead")
-    assert "No_name" in str(jack) and ("Pod" in str(jack))
+@pytest.fixture
+def register():
+    register = Roles.register_all_members()
+    return register
 
 
-def test_canParseCSVwithRolesandPersonName():
-    df = Roles().parse_csv_of_roles()
-    assert all(elem in ["Person", "Role"] for elem in df.columns)
+def test_canCreatePerson():
+    jack = Person("Jack", "Snr Specialist")
+    assert jack.name == "Jack" and jack.role == "Snr Specialist"
 
 
-def test_singleMemberCanBeRegisteredToRoleDictionary():
-    jack = Person("No_name", "Pod Leads")
-    Roles().registerMember(jack)
-    assert "No_name" in str(Roles().all_team_members_in_company)
+def test_canRegisterAllMembers(register):
+    df = pd.read_csv(PATH_TO_CSV)
+    assert len(df.index) == len(Roles.all_team_members_in_company)
 
 
-def test_singleMemberCanBeRegisteredToTeamList():
-    jack = Person("No_name", "Pod Leads")
-    registered = Roles().registerMember(jack)
-    item_in_team_register = list(Roles().all_team_members_in_company)[0]
-    assert isinstance(item_in_team_register, type(jack))
+def test_canGetAllSnrSpecialists(register):
+    ls = SnrSpecialist().all_members
+    for ss in ls:
+        print(ss)
+    assert len(ls) == 6
 
 
-def test_canRegisterAllMembers():
-    new_roles = Roles()
-    new_roles.register_all_members()
-    df = Roles().parse_csv_of_roles()
-    assert len(new_roles.all_team_members_in_company) == (
-        df["Role"].count() + 1
-    )
+def test_canGetAllJnrSpecialists(register):
+    ls = JnrSpecialist().all_members
+    assert len(ls) == 8
+
+
+def test_canGetAllPodLeads(register):
+    ls = PodLead().all_members
+    assert len(ls) == 2
+
+
+def test_canGetAllSetters(register):
+    ls = Setter().all_members
+    assert len(ls) == 7

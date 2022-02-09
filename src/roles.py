@@ -2,7 +2,8 @@
 for each person to use for other functions
 """
 
-import pandas as pd
+from src.constants import PATH_TO_CSV
+from src.common import parse_csv_of_roles
 
 
 class Person:
@@ -20,6 +21,20 @@ class Person:
         """
         return f"Person (Name: {self.name} - Role: {self.role})"
 
+    def __hash__(self):
+        """This allows multiple classes to be added to the set all_team in a
+        future function call
+        Returns:
+            hash: Hash of name and role of this instance
+        """
+        return hash((self.name, self.role))
+
+    def __eq__(self, other):
+        """Not fully sure why this works, but I will figure it out"""
+        if not isinstance(other, type(self)):
+            return NotImplemented
+        return self.name == other.name and self.role == other.role
+
 
 class Roles:
     """Registers and assigns Person object based on their role to the correct
@@ -30,24 +45,13 @@ class Roles:
     def __init__(self) -> None:
         pass
 
-    def getAllMembers(self):
+    def get_all_members(self):
         return self.all_members
 
-    def listAllTeamMembersInCompany(self):
-        return self.all_team_members_in_company
+    def list_all_team_members_in_company(cls):
+        return cls.all_team_members_in_company
 
-    def parse_csv_of_roles(self):
-        """Uses csv as a database to pull through data for each team member
-
-        Returns:
-            dataframe: Returns two columns, name and role
-        """
-        df = pd.read_csv(
-            "/Users/louisrae/Documents/dev/dfy_setters/src/db_people.csv"
-        )
-        return df
-
-    def registerMember(self, team_member: Person):
+    def register_member(self, team_member: Person):
         """Takes the Person object and assigns the attributes to the
         role dictionary and object to a list of all team_members
 
@@ -55,22 +59,23 @@ class Roles:
             team_member (Person): Takes in Person object, defined above
         """
         self.all_members.add(team_member)
+        self.all_team_members_in_company.add(team_member)
 
-    def register_all_members(self):
+    @staticmethod
+    def register_all_members():
         """Registers every member into dictionary and full list who
         is in database
         """
-        for name, role in self.parse_csv_of_roles().values:
+        for name, role in parse_csv_of_roles(PATH_TO_CSV).values:
             person = Person(name, role)
             if role == "Pod Lead":
-                PodLead().registerMember(person)
+                PodLead().register_member(person)
             elif role == "Snr Specialist":
-                SnrSpecialist().registerMember(person)
+                SnrSpecialist().register_member(person)
             elif role == "Jnr Specialist":
-                JnrSpecialist().registerMember(person)
+                JnrSpecialist().register_member(person)
             elif role == "Setter":
-                Setter().registerMember(person)
-            self.all_team_members_in_company.add(person)
+                Setter().register_member(person)
 
 
 class SnrSpecialist(Roles):
@@ -107,9 +112,3 @@ class Setter(Roles):
     def __init__(self) -> None:
         super().__init__()
         self.title = "Setter"
-
-
-Roles().register_all_members()
-ls = Roles().all_team_members_in_company
-ds = SnrSpecialist().all_team_members_in_company
-print(ls == ds)

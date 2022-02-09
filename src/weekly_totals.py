@@ -156,7 +156,7 @@ class SSBTotals:
             except Exception as e:
                 logging.info(f"{sheet.title}: {e}")
 
-        week_df = pd.DataFrame(full_week_totals.items())
-        month_df = pd.DataFrame(full_month_totals.items())
+        week_df = pd.DataFrame(full_week_totals.items()).sort_values(by=1)
+        month_df = pd.DataFrame(full_month_totals.items()).sort_values(by=1)
 
         return week_df, month_df

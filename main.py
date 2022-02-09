@@ -25,8 +25,12 @@ mtd_end = date.today()
 wtd_start = date(2022, 2, 7)
 wtd_end = date.today()
 
-df = SSBTotals(
+df, df1 = SSBTotals(
     mtd_start, mtd_end, wtd_start, wtd_end
 ).getWTDandMTDTotalsDataframe()
 
+print("This is week")
 print(df)
+
+print("This is month")
+print(df1)

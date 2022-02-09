@@ -245,3 +245,205 @@
 2022-02-07 17:11:18,400, INFO:Oneself Limited: Out of bounds nanosecond timestamp: 1-11-22 00:00:00
 2022-02-07 17:11:23,217, INFO:Slackbot: 'Total SSB'
 2022-02-07 17:11:23,651, INFO:EOD Reference: 'Total SSB'
+2022-02-07 17:15:49,509, INFO:AdSemble, Inc: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:15:49,930, INFO:MAB Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:15:50,332, INFO:Omniix: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:15:50,749, INFO:Arbor Advertising: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:15:51,258, INFO:Obi One Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:15:51,783, INFO:Garage Gym: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:15:52,174, INFO:Ultimate You Project: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:15:52,551, INFO:Establish PR: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:15:57,466, INFO:Marketing Funnel Automation: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:15:58,013, INFO:Front Pack Swim: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:16:13,668, INFO:Amplify My Business: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:16:13,992, INFO:PrecisionSlim: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:16:22,180, INFO:Cheryl Hunter: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:16:22,484, INFO:Local Mapsmith: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:16:22,893, INFO:2x: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:16:23,158, INFO:Modern Digital Agent: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:16:23,470, INFO:Scalebold: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:16:23,784, INFO:Sally Sparks: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:16:24,120, INFO:RemRoi: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-07 17:16:24,423, INFO:Milkshake Media: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-07 17:16:24,846, INFO:LaniNalu - inactive: Out of bounds nanosecond timestamp: 1-02-08 00:00:00
+2022-02-07 17:16:25,136, INFO:Take Your Power Back Now: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-07 17:16:25,450, INFO:High Ticket Empress: Out of bounds nanosecond timestamp: 1-05-17 00:00:00
+2022-02-07 17:16:25,756, INFO:Melanie Power: Out of bounds nanosecond timestamp: 1-07-19 00:00:00
+2022-02-07 17:16:26,059, INFO:EBS: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-07 17:16:26,466, INFO:Committed 100: Out of bounds nanosecond timestamp: 1-09-27 00:00:00
+2022-02-07 17:16:26,772, INFO:Tradacc: Out of bounds nanosecond timestamp: 1-10-18 00:00:00
+2022-02-07 17:16:34,689, INFO:AltAgency: Out of bounds nanosecond timestamp: 1-01-01 00:00:00
+2022-02-07 17:16:35,100, INFO:The Sponsorship Collective: Out of bounds nanosecond timestamp: 1-12-31 00:00:00
+2022-02-07 17:16:52,069, INFO:Sales Recruiting University: Out of bounds nanosecond timestamp: 1-09-06 00:00:00
+2022-02-07 17:17:12,758, INFO:ML Sense Ltd: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:17:13,270, INFO:Multiply Inc: Out of bounds nanosecond timestamp: 1-08-23 00:00:00
+2022-02-07 17:17:13,777, INFO:Square 1 Group: index 0 is out of bounds for axis 0 with size 0
+2022-02-07 17:17:30,358, INFO:Oneself Limited: Out of bounds nanosecond timestamp: 1-11-22 00:00:00
+2022-02-07 17:17:35,129, INFO:Slackbot: 'Total SSB'
+2022-02-07 17:17:35,579, INFO:EOD Reference: 'Total SSB'
+2022-02-08 08:00:52,874, INFO:AdSemble, Inc: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:00:53,398, INFO:MAB Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:00:53,898, INFO:Omniix: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:00:54,283, INFO:Arbor Advertising: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:00:54,781, INFO:Obi One Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:00:55,357, INFO:Garage Gym: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:00:55,716, INFO:Ultimate You Project: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:00:56,099, INFO:Establish PR: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:00,527, INFO:Marketing Funnel Automation: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:01,339, INFO:Front Pack Swim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:19,022, INFO:Amplify My Business: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:19,946, INFO:PrecisionSlim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:28,476, INFO:Cheryl Hunter: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:28,979, INFO:Local Mapsmith: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:29,345, INFO:2x: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:29,704, INFO:Modern Digital Agent: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:30,097, INFO:Scalebold: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:30,437, INFO:Sally Sparks: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:01:30,797, INFO:RemRoi: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-08 08:01:31,144, INFO:Milkshake Media: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-08 08:01:31,586, INFO:LaniNalu - inactive: Out of bounds nanosecond timestamp: 1-02-08 00:00:00
+2022-02-08 08:01:31,993, INFO:Take Your Power Back Now: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-08 08:01:32,330, INFO:High Ticket Empress: Out of bounds nanosecond timestamp: 1-05-17 00:00:00
+2022-02-08 08:01:32,680, INFO:Melanie Power: Out of bounds nanosecond timestamp: 1-07-19 00:00:00
+2022-02-08 08:01:33,045, INFO:EBS: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-08 08:01:33,415, INFO:Committed 100: Out of bounds nanosecond timestamp: 1-09-27 00:00:00
+2022-02-08 08:01:33,762, INFO:Tradacc: Out of bounds nanosecond timestamp: 1-10-18 00:00:00
+2022-02-08 08:01:41,939, INFO:AltAgency: Out of bounds nanosecond timestamp: 1-01-01 00:00:00
+2022-02-08 08:01:42,333, INFO:The Sponsorship Collective: Out of bounds nanosecond timestamp: 1-12-31 00:00:00
+2022-02-08 08:01:58,675, INFO:Sales Recruiting University: Out of bounds nanosecond timestamp: 1-09-06 00:00:00
+2022-02-08 08:02:19,027, INFO:ML Sense Ltd: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:02:19,509, INFO:Multiply Inc: Out of bounds nanosecond timestamp: 1-08-23 00:00:00
+2022-02-08 08:02:19,957, INFO:Square 1 Group: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 08:02:36,946, INFO:Oneself Limited: Out of bounds nanosecond timestamp: 1-11-22 00:00:00
+2022-02-08 08:02:41,484, INFO:Slackbot: 'Total SSB'
+2022-02-08 08:02:41,861, INFO:EOD Reference: 'Total SSB'
+2022-02-08 18:22:11,258, INFO:AdSemble, Inc: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:11,568, INFO:MAB Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:11,990, INFO:Omniix: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:12,375, INFO:Arbor Advertising: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:12,803, INFO:Obi One Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:13,217, INFO:Garage Gym: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:13,479, INFO:Ultimate You Project: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:13,865, INFO:Establish PR: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:17,920, INFO:Marketing Funnel Automation: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:18,315, INFO:Front Pack Swim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:33,990, INFO:Amplify My Business: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:34,401, INFO:PrecisionSlim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:45,971, INFO:Cheryl Hunter: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:46,257, INFO:Local Mapsmith: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:46,596, INFO:2x: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:47,001, INFO:Modern Digital Agent: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:47,304, INFO:Scalebold: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:47,581, INFO:Sally Sparks: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:22:47,867, INFO:RemRoi: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-08 18:22:48,139, INFO:Milkshake Media: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-08 18:22:48,538, INFO:LaniNalu - inactive: Out of bounds nanosecond timestamp: 1-02-08 00:00:00
+2022-02-08 18:22:48,813, INFO:Take Your Power Back Now: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-08 18:22:49,368, INFO:High Ticket Empress: Out of bounds nanosecond timestamp: 1-05-17 00:00:00
+2022-02-08 18:22:49,679, INFO:Melanie Power: Out of bounds nanosecond timestamp: 1-07-19 00:00:00
+2022-02-08 18:22:50,153, INFO:EBS: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-08 18:22:50,437, INFO:Committed 100: Out of bounds nanosecond timestamp: 1-09-27 00:00:00
+2022-02-08 18:22:50,876, INFO:Tradacc: Out of bounds nanosecond timestamp: 1-10-18 00:00:00
+2022-02-08 18:22:54,801, INFO:AltAgency: Out of bounds nanosecond timestamp: 1-01-01 00:00:00
+2022-02-08 18:22:55,216, INFO:The Sponsorship Collective: Out of bounds nanosecond timestamp: 1-12-31 00:00:00
+2022-02-08 18:23:11,573, INFO:Sales Recruiting University: Out of bounds nanosecond timestamp: 1-09-06 00:00:00
+2022-02-08 18:23:31,048, INFO:ML Sense Ltd: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:23:31,446, INFO:Multiply Inc: Out of bounds nanosecond timestamp: 1-08-23 00:00:00
+2022-02-08 18:23:31,732, INFO:Square 1 Group: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:23:47,099, INFO:Oneself Limited: Out of bounds nanosecond timestamp: 1-11-22 00:00:00
+2022-02-08 18:23:51,682, INFO:Slackbot: 'Total SSB'
+2022-02-08 18:23:51,938, INFO:EOD Reference: 'Total SSB'
+2022-02-08 18:25:02,584, INFO:AdSemble, Inc: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:03,000, INFO:MAB Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:03,319, INFO:Omniix: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:03,747, INFO:Arbor Advertising: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:04,034, INFO:Obi One Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:04,494, INFO:Garage Gym: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:04,943, INFO:Ultimate You Project: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:05,216, INFO:Establish PR: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:09,355, INFO:Marketing Funnel Automation: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:09,757, INFO:Front Pack Swim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:25,414, INFO:Amplify My Business: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:25,859, INFO:PrecisionSlim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:37,405, INFO:Cheryl Hunter: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:37,803, INFO:Local Mapsmith: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:38,107, INFO:2x: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:38,402, INFO:Modern Digital Agent: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:38,732, INFO:Scalebold: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:39,234, INFO:Sally Sparks: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:25:39,646, INFO:RemRoi: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-08 18:25:39,946, INFO:Milkshake Media: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-08 18:25:40,261, INFO:LaniNalu - inactive: Out of bounds nanosecond timestamp: 1-02-08 00:00:00
+2022-02-08 18:25:40,554, INFO:Take Your Power Back Now: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-08 18:25:40,884, INFO:High Ticket Empress: Out of bounds nanosecond timestamp: 1-05-17 00:00:00
+2022-02-08 18:25:41,186, INFO:Melanie Power: Out of bounds nanosecond timestamp: 1-07-19 00:00:00
+2022-02-08 18:25:41,476, INFO:EBS: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-08 18:25:41,790, INFO:Committed 100: Out of bounds nanosecond timestamp: 1-09-27 00:00:00
+2022-02-08 18:25:42,096, INFO:Tradacc: Out of bounds nanosecond timestamp: 1-10-18 00:00:00
+2022-02-08 18:25:46,177, INFO:AltAgency: Out of bounds nanosecond timestamp: 1-01-01 00:00:00
+2022-02-08 18:25:46,511, INFO:The Sponsorship Collective: Out of bounds nanosecond timestamp: 1-12-31 00:00:00
+2022-02-08 18:26:02,793, INFO:Sales Recruiting University: Out of bounds nanosecond timestamp: 1-09-06 00:00:00
+2022-02-08 18:26:22,654, INFO:ML Sense Ltd: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:26:22,959, INFO:Multiply Inc: Out of bounds nanosecond timestamp: 1-08-23 00:00:00
+2022-02-08 18:26:23,223, INFO:Square 1 Group: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:26:39,140, INFO:Oneself Limited: Out of bounds nanosecond timestamp: 1-11-22 00:00:00
+2022-02-08 18:26:43,818, INFO:Slackbot: 'Total SSB'
+2022-02-08 18:26:44,250, INFO:EOD Reference: 'Total SSB'
+2022-02-08 18:27:54,212, INFO:AdSemble, Inc: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:27:54,630, INFO:MAB Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:27:55,062, INFO:Omniix: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:27:55,490, INFO:Arbor Advertising: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:27:55,964, INFO:Obi One Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:27:56,298, INFO:Garage Gym: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:27:56,670, INFO:Ultimate You Project: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:27:57,062, INFO:Establish PR: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:01,260, INFO:Marketing Funnel Automation: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:01,680, INFO:Front Pack Swim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:17,557, INFO:Amplify My Business: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:17,905, INFO:PrecisionSlim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:29,748, INFO:Cheryl Hunter: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:30,057, INFO:Local Mapsmith: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:30,436, INFO:2x: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:30,825, INFO:Modern Digital Agent: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:31,224, INFO:Scalebold: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:31,624, INFO:Sally Sparks: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:28:31,929, INFO:RemRoi: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-08 18:28:32,239, INFO:Milkshake Media: Out of bounds nanosecond timestamp: 1-08-09 00:00:00
+2022-02-08 18:28:32,669, INFO:LaniNalu - inactive: Out of bounds nanosecond timestamp: 1-02-08 00:00:00
+2022-02-08 18:28:33,051, INFO:Take Your Power Back Now: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-08 18:28:33,473, INFO:High Ticket Empress: Out of bounds nanosecond timestamp: 1-05-17 00:00:00
+2022-02-08 18:28:33,896, INFO:Melanie Power: Out of bounds nanosecond timestamp: 1-07-19 00:00:00
+2022-02-08 18:28:34,350, INFO:EBS: Out of bounds nanosecond timestamp: 1-08-16 00:00:00
+2022-02-08 18:28:34,756, INFO:Committed 100: Out of bounds nanosecond timestamp: 1-09-27 00:00:00
+2022-02-08 18:28:35,062, INFO:Tradacc: Out of bounds nanosecond timestamp: 1-10-18 00:00:00
+2022-02-08 18:28:39,497, INFO:AltAgency: Out of bounds nanosecond timestamp: 1-01-01 00:00:00
+2022-02-08 18:28:39,859, INFO:The Sponsorship Collective: Out of bounds nanosecond timestamp: 1-12-31 00:00:00
+2022-02-08 18:28:56,469, INFO:Sales Recruiting University: Out of bounds nanosecond timestamp: 1-09-06 00:00:00
+2022-02-08 18:29:17,262, INFO:ML Sense Ltd: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:29:17,667, INFO:Multiply Inc: Out of bounds nanosecond timestamp: 1-08-23 00:00:00
+2022-02-08 18:29:18,069, INFO:Square 1 Group: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:29:34,245, INFO:Oneself Limited: Out of bounds nanosecond timestamp: 1-11-22 00:00:00
+2022-02-08 18:29:39,008, INFO:Slackbot: 'Total SSB'
+2022-02-08 18:29:39,354, INFO:EOD Reference: 'Total SSB'
+2022-02-08 18:49:32,790, INFO:AdSemble, Inc: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:49:33,285, INFO:MAB Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:49:33,733, INFO:Omniix: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:49:34,117, INFO:Arbor Advertising: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:49:34,521, INFO:Obi One Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:49:35,049, INFO:Garage Gym: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:49:35,539, INFO:Ultimate You Project: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:49:35,809, INFO:Establish PR: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:49:40,055, INFO:Marketing Funnel Automation: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:49:40,450, INFO:Front Pack Swim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:04,774, INFO:AdSemble, Inc: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:05,232, INFO:MAB Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:05,529, INFO:Omniix: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:05,802, INFO:Arbor Advertising: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:06,273, INFO:Obi One Media: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:06,693, INFO:Garage Gym: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:07,071, INFO:Ultimate You Project: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:07,479, INFO:Establish PR: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:12,115, INFO:Marketing Funnel Automation: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:12,515, INFO:Front Pack Swim: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:28,487, INFO:Amplify My Business: index 0 is out of bounds for axis 0 with size 0
+2022-02-08 18:51:29,019, INFO:PrecisionSlim: index 0 is out of bounds for axis 0 with size 0
