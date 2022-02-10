@@ -2,7 +2,6 @@
 for each person to use for other functions
 """
 
-from src.constants import PATH_TO_CSV
 from src.common import parse_csv_of_roles
 
 
@@ -66,7 +65,7 @@ class Roles:
         """Registers every member into dictionary and full list who
         is in database
         """
-        for name, role in parse_csv_of_roles(PATH_TO_CSV).values:
+        for name, role in list(parse_csv_of_roles().values):
             person = Person(name, role)
             if role == "Pod Lead":
                 PodLead().register_member(person)

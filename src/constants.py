@@ -1,5 +1,7 @@
 import os
 
+DATABASE_URI = "postgresql://postgres:qweasdzxcQ101@localhost:5432/general"
+
 
 GSPREAD_CREDENTIALS = f"/Users/{os.environ['USER']}/Documents/d4ysetters/credentials/credentials.json"
 AUTHORIZED_USER = f"/Users/{os.environ['USER']}/Documents/d4ysetters/credentials/authorized_user.json"

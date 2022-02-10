@@ -206,6 +206,7 @@ class Leaderboard:
             dataframe: dataframe with columns based on role and index on each
             individual metric. There are a lot of NaN values
         """
+
         lofd = {}
         for role in role_list:
             ls = role.get_all_members()

@@ -70,7 +70,7 @@ class TestLeaderboard:
         todo = leaderboard.getSortedTCandSSNumbersForTeamMembers(
             role_list, data
         )
-        assert 90 == todo.sum().sum()
+        assert 165 == todo.sum().sum()
 
 
 class TestScheduleOnce:
@@ -81,8 +81,8 @@ class TestScheduleOnce:
 
     def test_allTCScheduledInValueCounts(self, scheduleonce):
         scheduled_params = {
-            "creation_time.gt": from_date,
-            "creation_time.lt": to_date,
+            "starting_time.gt": from_date,
+            "starting_time.lt": to_date,
         }
 
         scheduled = scheduleonce.getBookingData(scheduled_params)
@@ -90,12 +90,12 @@ class TestScheduleOnce:
             SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
         ).getValueCountsFromDict(scheduled)
 
-        assert tcs.values.sum() == 65
+        assert tcs.values.sum() == 79
 
     def test_allTCBookedInValueCounts(self, scheduleonce):
         booked_params = {
-            "starting_time.gt": from_date,
-            "starting_time.lt": to_date,
+            "creation_time.gt": from_date,
+            "creation_time.lt": to_date,
         }
 
         booked = scheduleonce.getBookingData(booked_params)
@@ -103,4 +103,4 @@ class TestScheduleOnce:
             SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
         ).getValueCountsFromDict(booked)
 
-        assert tcb.values.sum() == 121
+        assert tcb.values.sum() == 68
