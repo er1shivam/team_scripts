@@ -10,8 +10,6 @@ LEVEL_10_SHEET_URL = "https://docs.google.com/spreadsheets/d/1Y7cQYW1MJ1HstJVJEA
 
 SPECIALIST_NAME = "Tylee Evans Groll"
 
-MESSAGE_DATA_URL = "https://docs.google.com/spreadsheets/d/1IfZlLzzwkC05I6fv-4ZRNFOc7ul7k0qIfeG-bk9j6AA/edit#gid=81738738"
-
 SCHEDULE_ONCE_HEADERS = {
     "Accept": "application/json",
     "API-Key": "d7459f78d474f09276b4d708d2f2a161",
@@ -24,3 +22,5 @@ SCHEDULE_ONCE_URL = (
 DAILY_KPIS_URL = "https://docs.google.com/spreadsheets/d/18AgIMFyPCOxHYQXRYJowihJd_i2kRMB9pzB5jdA3ZVc/edit#gid=1070219116"
 
 PATH_TO_CSV = "/Users/louisrae/Documents/dev/dfy_setters/src/db_people.csv"
+
+MESSAGE_DATA_WORKBOOK = "https://docs.google.com/spreadsheets/d/1ilUCdcEP-TDUMrC8Alwp2x3Jq2LYfOzINFfF2MTY91k/edit#gid=1232583697"

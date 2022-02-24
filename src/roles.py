@@ -75,6 +75,8 @@ class Roles:
                 JnrSpecialist().register_member(person)
             elif role == "Setter":
                 Setter().register_member(person)
+            elif role == "Operations":
+                Operations().register_member(person)
 
 
 class SnrSpecialist(Roles):
@@ -111,3 +113,12 @@ class Setter(Roles):
     def __init__(self) -> None:
         super().__init__()
         self.title = "Setter"
+
+
+class Operations(Roles):
+
+    all_members = set()
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.title = "Operations"

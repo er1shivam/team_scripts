@@ -9,7 +9,7 @@ from statistics import mean
 
 
 class UnansweredMessages:
-    def __init__(self, sheet, specialist):
+    def __init__(self, workbook):
         """This class has fucntions that allow you to pass in a sheet and a
         desired name, and check how many unanswered messages that name has
 
@@ -21,27 +21,23 @@ class UnansweredMessages:
             specialist (string): This is the name of the specialist that runs
             that account and is responsible for those messages
         """
-        self.sheet = sheet
-        self.specialist = specialist
+        self.workbook = workbook
 
-    def getSheetValuesToDataframe(self):
+    def get_sheet_values_to_dataframe(self, sheet):
         """Uses the sheet attribute to get the data needed and return a
         dataframe and grouped dataframe of that data
 
         Returns:
             tuple: Dataframe, Grouped Dataframe with message data from sheet
         """
-        message_data = self.sheet.get_all_records()
+        message_data = sheet.get_all_records()
         cleaned_message_list = [
             i for i in message_data if (len(i["Conversation"]) > 2)
         ]
         message_dataframe = pd.DataFrame(cleaned_message_list)
-        message_groups = message_dataframe.groupby(["Conversation"])[
-            "Timestamp (ms)"
-        ].max()
-        return message_dataframe, message_groups
+        return message_dataframe
 
-    def countUnanswered(self, regular_dataframe, grouped_dataframe):
+    def count_unanswered(self, regular_dataframe, sheet):
         """Gives a number of unanswered messages in a certain sheet based on
         the specialist name
 
@@ -58,18 +54,33 @@ class UnansweredMessages:
         """
 
         list_of_last_senders = []
-        for row in grouped_dataframe:
-            last_message_time = regular_dataframe.loc[
+        message_groups = regular_dataframe.groupby(["Conversation"])[
+            "Timestamp (ms)"
+        ].max()
+        specialist = sheet.title[9:].capitalize()
+        for row in message_groups:
+            last_message_sender = regular_dataframe.loc[
                 regular_dataframe["Timestamp (ms)"] == row
-            ]
-            last_message_time = last_message_time["Sender"].values[0]
-            list_of_last_senders.append(last_message_time)
+            ]["Sender"].values[0]
+            list_of_last_senders.append(last_message_sender)
 
-        last_sender_count = len(
-            list_of_last_senders
-        ) - list_of_last_senders.count(self.specialist)
+        first_names = [l.split()[0] for l in list_of_last_senders if l]
+        last_sender_count = len(first_names) - first_names.count(specialist)
 
         return last_sender_count
+
+    def get_all_unanswered(self, workbook):
+        average_per_sheet = {}
+        for sheet in workbook:
+            df = UnansweredMessages(
+                self.workbook
+            ).get_sheet_values_to_dataframe(sheet)
+            count = UnansweredMessages(self.workbook).count_unanswered(
+                df, sheet
+            )
+            average_per_sheet[sheet.title] = count
+
+        return average_per_sheet
 
 
 class AveragePerConversation:

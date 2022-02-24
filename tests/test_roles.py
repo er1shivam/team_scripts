@@ -7,6 +7,7 @@ import pytest
 import pandas as pd
 from src.constants import *
 from sqlalchemy import create_engine
+from src.common import parse_csv_of_roles
 
 
 @pytest.fixture
@@ -21,30 +22,25 @@ def test_canCreatePerson():
 
 
 def test_canRegisterAllMembers(register):
-    engine = create_engine(DATABASE_URI)
-
-    myQuery = "SELECT full_name,role FROM team"
-    df = pd.read_sql_query(myQuery, engine)
+    df = parse_csv_of_roles()
     assert len(df.index) == len(Roles.all_team_members_in_company)
 
 
 def test_canGetAllSnrSpecialists(register):
     ls = SnrSpecialist().all_members
-    for ss in ls:
-        print(ss)
-    assert len(ls) == 5
+    assert len(ls) == 10
 
 
 def test_canGetAllJnrSpecialists(register):
     ls = JnrSpecialist().all_members
-    assert len(ls) == 5
+    assert len(ls) == 0
 
 
 def test_canGetAllPodLeads(register):
     ls = PodLead().all_members
-    assert len(ls) == 3
+    assert len(ls) == 5
 
 
 def test_canGetAllSetters(register):
     ls = Setter().all_members
-    assert len(ls) == 6
+    assert len(ls) == 9

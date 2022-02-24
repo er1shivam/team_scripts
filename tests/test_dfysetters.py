@@ -17,42 +17,44 @@ gc = gspread.oauth(
 )
 
 level_10_sheet = gc.open_by_url(LEVEL_10_SHEET_URL).sheet1
-message_data_sheet = gc.open_by_url(MESSAGE_DATA_URL).sheet1
+message_data_workbook = gc.open_by_url(MESSAGE_DATA_WORKBOOK)
 
-from_date = str(datetime.date.today() - datetime.timedelta(1))
-to_date = str(datetime.date.today())
+from_date = str(datetime.date(2022, 2, 21))
+to_date = str(datetime.date(2022, 2, 22))
 
 
-class TestFBTracking:
+class TestUnansweredMessages:
     @pytest.fixture()
     def tracking(self):
-        tracking = UnansweredMessages(message_data_sheet, SPECIALIST_NAME)
+        tracking = UnansweredMessages(message_data_workbook)
         return tracking
 
     def test_specialistIsInDataframe(self, tracking):
-        df, gdf = tracking.getSheetValuesToDataframe()
-        assert SPECIALIST_NAME in list(df["Sender"].values)
+        df = tracking.get_sheet_values_to_dataframe(
+            message_data_workbook.sheet1
+        )
+        assert "Tylee Evans Groll" in list(df["Sender"].values)
 
     def test_canPerformMathOnTimestamp(self, tracking):
-        df, gdf = tracking.getSheetValuesToDataframe()
-        assert sum(gdf.values) == 262789701437672
+        d = tracking.get_all_unanswered(message_data_workbook)
+        assert 50 == sum(d.values())
 
 
 class TestAveragePerConversation:
     @pytest.fixture()
     def average(self):
-        average = AveragePerConversation(message_data_sheet)
+        average = AveragePerConversation(message_data_workbook.sheet1)
         return average
 
     def test_DictionaryHasTimetampValues(self, average):
         d = average.getProspectNamesInDictionary()
         total_timestamps = sum([sum(ls) for ls in list(d.values())])
-        assert total_timestamps == 1269609215323793
+        assert total_timestamps == 60763938034603
 
     def test_DictionaryReturnsCorrectAverage(self, average):
         d = average.getProspectNamesInDictionary()
         avg = average.getAverageMinutesToReplyForAllConversations(d)
-        assert avg == 43.65
+        assert avg == 6.62
 
 
 class TestLeaderboard:
@@ -63,14 +65,14 @@ class TestLeaderboard:
 
     def test_getWeekTotalromLevel10(self, leaderboard):
         data = leaderboard.getWeekTotalFromLevel10()
-        assert "Girls SS" in data.index.values
+        assert "Tylee Groll SS" in data.index.values
 
     def test_canGetAllTeamDataIntoDataframe(self, leaderboard):
         data = leaderboard.getWeekTotalFromLevel10()
         todo = leaderboard.getSortedTCandSSNumbersForTeamMembers(
             role_list, data
         )
-        assert 165 == todo.sum().sum()
+        assert 144 == todo.sum().sum()
 
 
 class TestScheduleOnce:
@@ -90,7 +92,7 @@ class TestScheduleOnce:
             SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
         ).getValueCountsFromDict(scheduled)
 
-        assert tcs.values.sum() == 79
+        assert tcs.values.sum() == 71
 
     def test_allTCBookedInValueCounts(self, scheduleonce):
         booked_params = {
@@ -103,4 +105,4 @@ class TestScheduleOnce:
             SCHEDULE_ONCE_URL, SCHEDULE_ONCE_HEADERS
         ).getValueCountsFromDict(booked)
 
-        assert tcb.values.sum() == 68
+        assert tcb.values.sum() == 60
